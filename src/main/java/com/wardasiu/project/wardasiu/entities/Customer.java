@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class Customer {
     @Id
     @Column(name = "id_customer", nullable = false)
+    @GeneratedValue
     private Long idCustomer;
 
     @Column(name = "Name")
@@ -26,51 +27,51 @@ public class Customer {
     @Column(name = "Postcode", nullable = false)
     private String postcode;
 
-    String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    void setEmail(final String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
-    String getSurname() {
+    public String getSurname() {
         return surname;
     }
 
-    void setSurname(final String surname) {
+    public void setSurname(final String surname) {
         this.surname = surname;
     }
 
-    int getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    void setPhoneNumber(final int phoneNumber) {
+    public void setPhoneNumber(final int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    void setAddress(final String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
-    String getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    void setPostcode(final String postcode) {
+    public void setPostcode(final String postcode) {
         this.postcode = postcode;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setName(final String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
