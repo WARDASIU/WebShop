@@ -1,7 +1,8 @@
-package com.wardasiu.project.amigoscode.controllers;
+package com.wardasiu.project.wardasiu.controllers;
 
-import com.wardasiu.project.amigoscode.entities.Customer;
-import com.wardasiu.project.amigoscode.repositories.CustomerRepository;
+import com.wardasiu.project.wardasiu.entities.Customer;
+import com.wardasiu.project.wardasiu.repositories.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class CustomerController {
 
     private final CustomerRepository customerRepository;
 
+    @Autowired
     public CustomerController(final CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
@@ -26,7 +28,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> findCustomerById(@PathVariable(value = "id") long id) {
-        Optional<Customer> customer = customerRepository.findCustomersByIdCustomer(id);
+        Optional<Customer> customer = customerRepository.findCustomerByIdCustomer(id);
 
         return customer.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
     }

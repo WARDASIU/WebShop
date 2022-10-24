@@ -1,6 +1,6 @@
-package com.wardasiu.project.amigoscode.repositories;
+package com.wardasiu.project.wardasiu.repositories;
 
-import com.wardasiu.project.amigoscode.entities.Customer;
+import com.wardasiu.project.wardasiu.entities.Customer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     List<Customer> findAll();
-    Optional<Customer> findCustomersByIdCustomer(final Long id);
+    Optional<Customer> findCustomerByIdCustomer(final Long id);
 }

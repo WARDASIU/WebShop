@@ -1,4 +1,4 @@
-package com.wardasiu.project.amigoscode.entities;
+package com.wardasiu.project.wardasiu.entities;
 
 import javax.persistence.*;
 
