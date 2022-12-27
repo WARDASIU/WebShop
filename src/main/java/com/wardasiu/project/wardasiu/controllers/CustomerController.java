@@ -31,9 +31,4 @@ public class CustomerController {
 
         return customer.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    @PostMapping
-    public Customer saveCustomer(@Validated @RequestBody Customer customer) {
-        return customerRepository.save(customer);
-    }
 }
