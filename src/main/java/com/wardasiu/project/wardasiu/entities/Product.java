@@ -19,15 +19,15 @@ class Product {
     @Setter
     @Getter
     @Column(name = "Name", nullable = false)
-    private String Name;
+    private String name;
 
     @Setter
     @Getter
     @Column(name = "Description", nullable = false)
-    private String Description;
+    private String description;
 
     @Setter
     @Getter
     @Column(name = "Price", nullable = false)
-    private int Price;
+    private int price;
 }
