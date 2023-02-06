@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface ProductsRepository extends PagingAndSortingRepository<Product, Long> {
     List<Product> findAll();
     Optional<Product> findProductByIdProducts(@Param("id") Long id);
+    Optional<Product> findProductByName(@Param("name") String name);
+
+    Optional<Product> findProductByNameContains(@Param("name") String name);
 }

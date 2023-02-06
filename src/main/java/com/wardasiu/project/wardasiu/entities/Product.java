@@ -1,5 +1,6 @@
 package com.wardasiu.project.wardasiu.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
-public
-class Product {
+public class Product {
     @Setter
     @Getter
     @GeneratedValue
@@ -30,4 +30,9 @@ class Product {
     @Getter
     @Column(name = "Price", nullable = false)
     private int price;
+
+    @Setter
+    @Getter
+    @Column(name = "in_stock")
+    private int inStock;
 }

@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,8 +22,15 @@ public class ProductsController {
         this.productsRepository = productsRepository;
     }
 
-    @GetMapping("/product/{id}")
-    public ResponseEntity<Product> findProductsById(@PathVariable(value = "id") long id) {
+    @GetMapping("/product/{name}")
+    public ResponseEntity<Product> findProductByName(@PathVariable(value = "name") String name) {
+        Optional<Product> product = productsRepository.findProductByName(name);
+
+        return product.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/product/{Id}")
+    public ResponseEntity<Product> findProductById(@PathVariable(value = "Id") long id) {
         Optional<Product> product = productsRepository.findProductByIdProducts(id);
 
         return product.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
@@ -37,7 +43,23 @@ public class ProductsController {
         return Files.readAllBytes(Paths.get(filePath));
     }
 
+    @GetMapping("/product/{Id}/images/{filename}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable(value = "Id") long id, @PathVariable String filename) throws IOException {
+        Optional<Product> product = productsRepository.findProductByIdProducts(id);
+        String productName = product.get().getName().replace(" ", "_");
+        String path = "src/main/resources/img/" + productName + "/";
+        String filePath = Paths.get(path, filename + ".png").toString();
+
+        return Files.readAllBytes(Paths.get(filePath));
+    }
+
     @RequestMapping(value = "/products", method = RequestMethod.GET)
+    public ModelAndView getProductsPage() {
+        return new ModelAndView("products");
+    }
+
+    @RequestMapping(value = "/api/products", method = RequestMethod.GET)
     public String getProductsAsList() {
         Gson gson = new Gson();
 
