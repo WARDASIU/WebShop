@@ -1,5 +1,5 @@
 window.onload = function () {
-    fetch("http://localhost:8080/products")
+    fetch("http://localhost:8080/api/products")
         .then(response => response.json())
         .then(products => {
             const container = document.getElementById('products');
@@ -11,7 +11,7 @@ window.onload = function () {
 
                 element.innerHTML = `
                             <div class="col-img-with-text">
-                                <img src="/api/products/images/9.png" alt="">
+                                <img src="/api/products/images/1.png" alt="">
                             </div>
                             <div class="col-text">
                                 <div>                             
@@ -21,7 +21,7 @@ window.onload = function () {
                             </div>`;
                 container.appendChild(element);
                 i++;
-                if (i === 4) break;
+                if (i === 6) break;
             }
         });
 }
