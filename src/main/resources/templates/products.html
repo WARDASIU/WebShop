@@ -30,8 +30,8 @@
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
-            <li><a class="nav-link" href="/products">Produkty</a></li>
+            <li><a class="nav-link" href="/">Strona główna</a></li>
+            <li><a class="nav-link" href="/products">Produkty<span class="sr-only">(current)</span></a></li>
             <li><a class="nav-link" href="#">Baza wiedzy</a></li>
             <li><a class="nav-link" href="#">Usługi</a></li>
             <li><a class="nav-link" href="#">O nas</a></li>
@@ -40,9 +40,52 @@
 </nav>
 
 <div class="container-fluid">
-    <div class="row d-flex justify-content-center" id="products">
+    <div class="row d-flex justify-content-center" id="products" style="margin-top: 15px">
     </div>
 </div>
+
+<div class="cart-icon">
+    <i class="fa fa-shopping-cart"></i>
+    <span class="badge badge-primary">0</span>
+</div>
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+        intent="WELCOME"
+        chat-title="EasyStep asystent"
+        agent-id="e13929ea-8179-4598-8a90-67795094ed41"
+        language-code="pl"
+></df-messenger>
+
+<footer class="bg-dark py-4 mt-4 text-white text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h3>Contact Us</h3>
+                <p>
+                    Zawoja 2044<br>
+                    Anytown, USA 12345<br>
+                    (123) 456-7890
+                </p>
+            </div>
+            <div class="col-12 col-md-4">
+                <h3>Follow Us</h3>
+                <ul class="list-unstyled d-flex justify-content-between">
+                    <li><a href="#"><i class="fab fa-facebook-square fa-2x"></i></a></li>
+                    <li><a href="#"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+                    <li><a href="#"><i class="fab fa-instagram-square fa-2x"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-4">
+                <h3>Legal</h3>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                    <li><a href="#" class="text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script type="text/javascript" th:src="@{/fetchProductPage.js}"></script>
 </body>

@@ -162,34 +162,105 @@ p {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
-.col-img-with-text img {
-    max-width: 110%;
-    max-height: 300px;
-    margin: 0 auto;
+.product-tile {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    cursor: pointer;
 }
 
-.col-img-with-text {
-    max-height: 300px;
-    display: block;
+.product-tile:hover{
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(171, 120, 24, 0.85);
 }
 
 .col-text{
     margin: 0 auto;
     width: 100%;
     text-align: center;
+    position: absolute !important;
+    top: 70%;
 }
 
-.hvr-shrink {
-    padding: 25px 0;
-    margin-bottom: 14px;
+.main-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-image img {
+    position: absolute;
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.main-image img:first-child {
+    opacity: 1;
+}
+
+.product-tile-addition{
+    height: 500px;
     display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;-webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-transition-property: transform;
-    transition-property: transform;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.fa-arrow-right, .fa-arrow-left{
+    height: 20px;
+    width: 25px;
+}
+
+.fa-arrow-right:hover, .fa-arrow-left:hover{
+    opacity: 0.7;
+}
+
+.cart-icon {
+    bottom: 80px;
+    right: 28px;
+    position: fixed;
+    float: right;
+}
+
+.cart-icon i {
+    position: relative;
+    background-color: #f6edcd;
+    border-radius: 50%;
+    color: #000000;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+}
+.badge {
+    position: absolute;
+    min-width: 22px;
+    height: 20px;
+}
+
+.add-to-cart {
+    display: inline-block;
+    background-color: #007bff; /* or any other desired color */
+    color: #fff; /* or any other desired color */
+    border: none;
+    border-radius: 5px; /* or any other desired border radius */
+    padding: 10px 20px; /* or any other desired padding */
+    font-size: 16px; /* or any other desired font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* or any other desired transition effect */
+}
+
+.add-to-cart:hover {
+    background-color: #0069d9; /* or any other desired color for the hover state */
 }
 
 .hvr-shrink:hover, .hvr-shrink:focus, .hvr-shrink:active {

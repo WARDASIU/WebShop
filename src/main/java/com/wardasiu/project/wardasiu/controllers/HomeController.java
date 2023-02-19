@@ -1,15 +1,24 @@
 package com.wardasiu.project.wardasiu.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+@RestController
 public class HomeController {
     @RequestMapping("/")
-    public String returnHomePage() {
+    public ModelAndView returnHomePage() {
 
-        return "index";
+        return new ModelAndView("index");
+    }
+
+    @GetMapping("/api/images/home/{filename}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable String filename) throws IOException {
+        String filePath = Paths.get("src/main/resources/img/home", filename).toString();
+        return Files.readAllBytes(Paths.get(filePath));
     }
 }
