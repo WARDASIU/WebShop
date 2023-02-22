@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
 <head>
     <title>HomePage</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -21,7 +22,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg fixed-top">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -33,6 +34,19 @@
             <li><a class="nav-link" href="#">Baza wiedzy</a></li>
             <li><a class="nav-link" href="#">Usługi</a></li>
             <li><a class="nav-link" href="#">O nas</a></li>
+            <li th:unless="${isLoggedIn}">
+                <a class="nav-link" href="/login">Zaloguj</a>
+            </li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Konto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/profile">Profil</a>
+                    <a class="dropdown-item" href="/logout" th:href="@{/logout}">Wyloguj</a>
+                </div>
+            </li>
         </ul>
     </div>
 </nav>

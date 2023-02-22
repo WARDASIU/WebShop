@@ -1,5 +1,6 @@
 package com.wardasiu.project.wardasiu.controllers;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -9,10 +10,13 @@ import java.nio.file.Paths;
 
 @RestController
 public class HomeController {
-    @RequestMapping("/")
-    public ModelAndView returnHomePage() {
+    @GetMapping("/")
+    public ModelAndView returnHomePage(Authentication authentication) {
+        ModelAndView modelAndView = new ModelAndView("index");
+        boolean isLoggedIn = authentication != null;
+        modelAndView.addObject("isLoggedIn", isLoggedIn);
 
-        return new ModelAndView("index");
+        return modelAndView;
     }
 
     @GetMapping("/api/images/home/{filename}")

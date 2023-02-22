@@ -15,8 +15,7 @@ public class Cart {
         this.products = new ArrayList<>();
     }
 
-    public void addProductById(Optional<Product> product) {
-        log.info(product.toString());
+    public void addProductByProduct(Optional<Product> product) {
         if (product.isPresent()) {
             products.add(product);
         } else {
