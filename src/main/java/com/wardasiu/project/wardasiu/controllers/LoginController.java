@@ -18,26 +18,26 @@ public class LoginController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("")
     public ModelAndView login(HttpServletRequest request) {
-        log.error("ABC");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         ModelAndView modelAndView = new ModelAndView();
-        if (userService.loadUserByUsername(username) != null) {
+
+        // Check if user exists in the database and password is correct
+        if (userService.authenticateUser(username, password) != null) {
             UserDetails user = userService.loadUserByUsername(username);
-            if (userService.verifyPassword(username, password)) {
-                modelAndView.setViewName("redirect:/");
-                modelAndView.addObject("user", user);
-                modelAndView.addObject("authentication", true);
-                return modelAndView;
-            }
+            modelAndView.setViewName("redirect:/");
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("authentication", true);
+        } else {
+            modelAndView.setViewName("login");
+            modelAndView.addObject("loginError", true);
         }
-        modelAndView.setViewName("login");
-        modelAndView.addObject("loginError", true);
 
         return modelAndView;
     }
+
 
     @GetMapping
     public ModelAndView getLoginPage(boolean loginError) {
