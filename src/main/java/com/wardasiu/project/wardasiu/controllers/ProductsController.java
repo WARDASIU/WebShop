@@ -36,13 +36,6 @@ public class ProductsController {
         return product.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/api/products/images/{filename}")
-    @ResponseBody
-    public byte[] getImage(@PathVariable String filename) throws IOException {
-        String filePath = Paths.get("src/main/resources/img", filename).toString();
-        return Files.readAllBytes(Paths.get(filePath));
-    }
-
     @GetMapping("/product/{Id}/images/{filename}")
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "Id") long id, @PathVariable String filename) throws IOException {

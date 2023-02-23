@@ -43,7 +43,7 @@
 }
 
 .product-tile-addition{
-    height: 400px;
+    height: 500px;
     display: inline-block;
     position: relative;
     overflow: hidden;
@@ -57,4 +57,44 @@
 
 .fa-arrow-right:hover, .fa-arrow-left:hover{
     opacity: 0.7;
+}
+
+.cart-icon {
+    bottom: 80px;
+    right: 28px;
+    position: fixed;
+    float: right;
+}
+
+.cart-icon i {
+    position: relative;
+    background-color: #f6edcd;
+    border-radius: 50%;
+    color: #000000;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+}
+.badge {
+    position: absolute;
+    min-width: 22px;
+    height: 20px;
+}
+
+.add-to-cart {
+    display: inline-block;
+    background-color: #007bff; /* or any other desired color */
+    color: #fff; /* or any other desired color */
+    border: none;
+    border-radius: 5px; /* or any other desired border radius */
+    padding: 10px 20px; /* or any other desired padding */
+    font-size: 16px; /* or any other desired font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* or any other desired transition effect */
+}
+
+.add-to-cart:hover {
+    background-color: #0069d9; /* or any other desired color for the hover state */
 }

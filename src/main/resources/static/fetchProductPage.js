@@ -16,13 +16,14 @@ window.onload = function () {
                                   <div class="main-image" onclick="window.location.href='/products/${item.idProducts}'">
                                     <img src="${imagesHTML[0]}" alt="" id='produkt_${idProduct}'>
                                   </div>
-                                  <div class="col-text" onclick="window.location.href='/products/${item.idProducts}'" style="padding: 20px">
-                                    <div>                             
+                                  <div class="col-text" style="padding: 20px">
+                                    <div onclick="window.location.href='/products/${item.idProducts}'">                             
                                       <h4>${item.name}</h4>
                                       <h6>${item.description}</h6>
-                                      <h6>${item.price}</h6>
-                                    </div>
-                                  </div>
+                                      <h6>${item.price}</h6>                                 
+                                    </div>         
+                                    <div><button onclick="addToCart(${item.idProducts})" class="add-to-cart">Add to cart</button></div>                          
+                                  </div>                               
                                   <div class="nav-arrows" style="position: absolute; top: 45%; width: 100%; display: none;">
                                     <div style="float: left; margin-left: 20px;">
                                       <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -73,5 +74,42 @@ window.onload = function () {
                 });
             })
         });
+}
 
+// const viewCartButton = document.getElementById('cart-icon');
+// viewCartButton.addEventListener('click', function() {
+//     window.location.href = '/cart.html';
+// });
+
+function addToCart(productId) {
+    fetch('/cart/addItem', {
+        method: 'POST',
+        body: JSON.stringify({ productId }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                const badge = document.querySelector('.cart-icon .badge');
+                const currentCount = parseInt(badge.innerText);
+                badge.innerText = currentCount + 1;
+                console.log('Product added to cart!');
+
+                // Update cart data in local storage
+                const cartData = sessionStorage.getItem('cart');
+                let cart = {};
+                if (cartData) {
+                    cart = JSON.parse(cartData);
+                }
+                if (!cart[productId]) {
+                    cart[productId] = 0;
+                }
+                cart[productId] += 1;
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+            } else {
+                console.log('Error adding product to cart');
+            }
+        })
+        .catch(error => console.error(error));
 }
