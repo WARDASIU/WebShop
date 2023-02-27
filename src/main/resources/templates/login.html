@@ -44,7 +44,7 @@
             <li><a class="nav-link" href="#">Usługi</a></li>
             <li><a class="nav-link" href="#">O nas</a></li>
             <li th:unless="${isLoggedIn}">
-                <a class="nav-link" href="/login">Zaloguj</a>
+                <a class="nav-link" href="/login">Zaloguj/Zarejestruj się</a>
             </li>
             <li th:if="${isLoggedIn}" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -71,6 +71,22 @@
         <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
+    </form>
+</div>
+
+<div class="container text-center col-lg-3" style="margin-top: 50px;">
+    <form class="form-signin" th:action="@{/register}" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Zarejestruj się</h1>
+        <label for="usernameToRegister" class="sr-only">Login</label>
+        <input type="text" name="usernameToRegister" id="usernameToRegister" class="form-control" placeholder="Login" required autofocus>
+
+        <label for="passwordToRegister" class="sr-only">Password</label>
+        <input type="password" name="passwordToRegister" id="passwordToRegister" class="form-control" placeholder="Hasło" required>
+
+        <label for="emailToRegister" class="sr-only">Email</label>
+        <input type="email" name="emailToRegister" id="emailToRegister" class="form-control" placeholder="Email" required autofocus>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Stworz konto</button>
         <p class="text-muted">&copy; EasyStep</p>
     </form>
 </div>

@@ -19,7 +19,7 @@ public class Users {
 
     @Setter
     @Getter
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Setter
@@ -31,4 +31,16 @@ public class Users {
     @Getter
     @Column(name = "role", nullable = false)
     private String role;
+
+    @Setter
+    @Getter
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    public Users(final String username, final String password, final String role, final String email) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+    }
 }

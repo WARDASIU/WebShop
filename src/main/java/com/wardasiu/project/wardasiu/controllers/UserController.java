@@ -1,21 +1,30 @@
 package com.wardasiu.project.wardasiu.controllers;
 
-import com.wardasiu.project.wardasiu.repositories.UserRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.wardasiu.project.wardasiu.entities.Users;
+import com.wardasiu.project.wardasiu.security.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserController {
-    private final UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
-    public UserController(final UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @PostMapping("/register")
+    public ModelAndView registerUser(@RequestParam String usernameToRegister,
+                                     @RequestParam String passwordToRegister,
+                                     @RequestParam String emailToRegister) {
+        ModelAndView modelAndView = new ModelAndView("login");
+        if (userService.isLoginAvailable(usernameToRegister)) {
+            if (userService.isEmailAvailable(emailToRegister)) {
+                userService.saveUser(new Users(usernameToRegister, passwordToRegister, "NORMAL", emailToRegister));
+            } else modelAndView.addObject("result", "Nazwa uzytkownika juz jest zajeta!");
+        } else {
+            modelAndView.addObject("result", "Email juz jest zajety!");
+        }
+
+        return modelAndView;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<?> getUsers() {
-        return ResponseEntity.ok().body(userRepository.findAll());
-    }
 }
