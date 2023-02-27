@@ -2,12 +2,14 @@ package com.wardasiu.project.wardasiu.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
+@NoArgsConstructor
 public class Product {
     @Setter
     @Getter
@@ -35,4 +37,13 @@ public class Product {
     @Getter
     @Column(name = "in_stock")
     private int inStock;
+
+    public Product(final Long id, final String name, final String description, final int price, final int inStock) {
+        this.idProducts = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.inStock = inStock;
+    }
+
 }

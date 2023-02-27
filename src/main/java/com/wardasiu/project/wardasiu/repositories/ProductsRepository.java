@@ -15,4 +15,7 @@ public interface ProductsRepository extends PagingAndSortingRepository<Product, 
     Optional<Product> findProductByName(@Param("name") String name);
 
     Optional<Product> findProductByNameContains(@Param("name") String name);
+
+    @Override
+    <S extends Product> S save(S entity);
 }

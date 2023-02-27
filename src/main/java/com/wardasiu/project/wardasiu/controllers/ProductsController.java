@@ -58,4 +58,16 @@ public class ProductsController {
 
         return gson.toJson(productsRepository.findAll());
     }
+
+//    @PostMapping("/admin")
+//    public ModelAndView addProduct(String name, String description,
+//                                  int price, int in_stock) {
+//        long nextId = productsRepository.findAll().stream().mapToLong(Product::getIdProducts).max().orElse(0) + 1;
+//        productsRepository.save(new Product(nextId, name, description, price, in_stock));
+//
+//        ModelAndView modelAndView = new ModelAndView("admin");
+//        modelAndView.addObject("productAdded", "Product added!");
+//
+//        return modelAndView;
+//    }
 }

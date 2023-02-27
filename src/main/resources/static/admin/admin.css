@@ -1,0 +1,30 @@
+.sidepanel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    flex-grow: 1;
+    float: left;
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+.nav-link {
+    color: #343a40;
+    font-weight: bold;
+}
+
+.nav-link.active {
+    background-color: #e9ecef;
+}
+
+#produkty,
+#zamowienia {
+    padding: 20px;
+}
