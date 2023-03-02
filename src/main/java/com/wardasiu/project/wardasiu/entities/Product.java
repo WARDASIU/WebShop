@@ -1,6 +1,5 @@
 package com.wardasiu.project.wardasiu.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import javax.persistence.*;
 public class Product {
     @Setter
     @Getter
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_products", nullable = false)
     private Long idProducts;
@@ -45,5 +44,4 @@ public class Product {
         this.price = price;
         this.inStock = inStock;
     }
-
 }

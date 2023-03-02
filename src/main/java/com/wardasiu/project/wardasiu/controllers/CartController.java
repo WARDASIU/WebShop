@@ -2,11 +2,19 @@ package com.wardasiu.project.wardasiu.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+//import com.wardasiu.project.wardasiu.entities.Cart;
+import com.wardasiu.project.wardasiu.entities.Cart;
+import com.wardasiu.project.wardasiu.entities.CartItem;
 import com.wardasiu.project.wardasiu.entities.Product;
+import com.wardasiu.project.wardasiu.entities.User;
+import com.wardasiu.project.wardasiu.repositories.CartRepository;
 import com.wardasiu.project.wardasiu.repositories.ProductsRepository;
-import com.wardasiu.project.wardasiu.service.Cart;
+import com.wardasiu.project.wardasiu.security.UserService;
+import com.wardasiu.project.wardasiu.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,42 +27,54 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequestMapping("/cart")
 public class CartController {
     @Autowired
     private ProductsRepository productRepository;
-    private final Cart cart;
 
-    public CartController() {
-        this.cart = new Cart();
-    }
+    @Autowired
+    private UserService userService;
 
-    @PostMapping("/add")
-    public void addProductToCart(@RequestBody Map<String, Long> requestBody) {
-        Long productId = requestBody.get("productId");
-        Optional<Product> product = productRepository.findProductByIdProducts(productId);
-        log.info(productId.toString());
-        cart.addProductByProduct(product);
-    }
+    @Autowired
+    private CartService cartService;
 
-    @PostMapping("/cart/addItem")
-    public void addItemToCart(HttpSession session, @RequestBody Map<String, Long> requestBody) {
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (cart == null) {
-            cart = new Cart();
-            session.setAttribute("cart", cart);
+    private Cart cart = new Cart();
+
+//    @PostMapping("/add")
+//    public void addProductToCart(@RequestBody Map<String, Long> requestBody) {
+//        Long productId = requestBody.get("productId");
+//        Optional<Product> product = productRepository.findProductByIdProducts(productId);
+//        log.info(productId.toString());
+//        cart.addProductByProduct(product);
+//    }
+
+    @PostMapping("/addItem")
+    public ResponseEntity<String> addItemToCart(HttpSession session, Authentication authentication, @RequestBody Map<String, Object> requestBody) {
+        Long productId = ((Number) requestBody.get("productId")).longValue();
+
+        if (authentication != null) {
+            User user = userService.findUserByUsername(authentication.getName());
+            cartService.addItem(user, productId);
+        } else {
+            Cart cart = (Cart) session.getAttribute("cart");
+            if (cart == null) {
+                cart = new Cart();
+                session.setAttribute("cart", cart);
+            }
+            CartItem cartItem = new CartItem(productId);
+            cart.addItem(cartItem);
         }
-        Long productId = requestBody.get("productId");
-        Optional<Product> product = productRepository.findProductByIdProducts(productId);
-        cart.addProductByProduct(product);
+
+        return ResponseEntity.ok("Item added to cart successfully.");
     }
 
-    @RequestMapping("/cartX")
+    @GetMapping("/X")
     public ModelAndView returnCartPage() {
 
         return new ModelAndView("cart");
     }
 
-    @GetMapping("/cart")
+    @GetMapping
     public ModelAndView showCart(@RequestAttribute HttpServletRequest request) {
         // Retrieve cart data from local storage
         String cartDataString = request.getParameter("cart");

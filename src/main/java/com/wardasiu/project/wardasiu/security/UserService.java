@@ -1,6 +1,6 @@
 package com.wardasiu.project.wardasiu.security;
 
-import com.wardasiu.project.wardasiu.entities.Users;
+import com.wardasiu.project.wardasiu.entities.User;
 import com.wardasiu.project.wardasiu.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
@@ -43,17 +43,21 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean isLoginAvailable(String username) {
-        Users user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         return user == null;
     }
 
     public boolean isEmailAvailable(String email) {
-        Users user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         return user == null;
     }
 
-    public void saveUser(Users user) {
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    public User findUserByUsername(final String name) {
+        return userRepository.findByUsername(name);
     }
 }
