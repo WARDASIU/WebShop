@@ -36,6 +36,15 @@ public class ProductsController {
         return product.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/api/products/{productId}")
+    public ResponseEntity<Product> getProduct(@PathVariable Long productId) {
+        Optional<Product> product = productsRepository.findProductByIdProducts(productId);
+
+        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+
     @GetMapping("/product/{Id}/images/{filename}")
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "Id") long id, @PathVariable String filename) throws IOException {

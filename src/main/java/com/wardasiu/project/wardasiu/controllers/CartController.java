@@ -20,10 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -38,16 +35,6 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    private Cart cart = new Cart();
-
-//    @PostMapping("/add")
-//    public void addProductToCart(@RequestBody Map<String, Long> requestBody) {
-//        Long productId = requestBody.get("productId");
-//        Optional<Product> product = productRepository.findProductByIdProducts(productId);
-//        log.info(productId.toString());
-//        cart.addProductByProduct(product);
-//    }
-
     @PostMapping("/addItem")
     public ResponseEntity<String> addItemToCart(HttpSession session, Authentication authentication, @RequestBody Map<String, Object> requestBody) {
         Long productId = ((Number) requestBody.get("productId")).longValue();
@@ -61,8 +48,6 @@ public class CartController {
                 cart = new Cart();
                 session.setAttribute("cart", cart);
             }
-            CartItem cartItem = new CartItem(productId);
-            cart.addItem(cartItem);
         }
 
         return ResponseEntity.ok("Item added to cart successfully.");

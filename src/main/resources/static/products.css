@@ -66,6 +66,11 @@
     float: right;
 }
 
+.cart-icon:hover {
+    opacity: 0.5;
+    color: #8a5401;
+}
+
 .cart-icon i {
     position: relative;
     background-color: #f6edcd;
@@ -96,5 +101,84 @@
 }
 
 .add-to-cart:hover {
-    background-color: #0069d9; /* or any other desired color for the hover state */
+    background-color: rgba(171, 120, 24, 0.85); /* or any other desired color for the hover state */
+}
+
+/* Cart window styles */
+
+#cart-window {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 400px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    z-index: 9999;
+}
+
+#cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 1rem;
+}
+
+#cart-header button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#cart-content {
+    padding: 1rem;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.product-name {
+    flex-grow: 1;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.product-quantity {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+}
+
+.product-price {
+    font-size: 1.1rem;
+}
+
+.product button {
+    background-color: transparent;
+    border: none;
+    color: #000;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.product button:first-child {
+    margin-right: 1rem;
+}
+
+.cart-total {
+    margin-top: 1rem;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2rem;
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "cart_item")
 public class CartItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id_cart_item;
 
     @Column(name = "id_cart")
@@ -24,8 +24,4 @@ public class CartItem {
 
     @Column(name = "quantity")
     private Integer quantity;
-
-    public CartItem(final Long productId) {
-        product = productId;
-    }
 }

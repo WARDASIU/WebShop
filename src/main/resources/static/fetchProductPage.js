@@ -22,7 +22,7 @@ window.onload = function () {
                                       <h6>${item.description}</h6>
                                       <h6>${item.price}</h6>                                 
                                     </div>         
-                                    <div><button onclick="addToCart(${item.idProducts})" class="add-to-cart">Add to cart</button></div>                          
+                                    <div><button onclick="addItemToCart(${item.idProducts})" class="add-to-cart">Add to cart</button></div>                          
                                   </div>                               
                                   <div class="nav-arrows" style="position: absolute; top: 45%; width: 100%; display: none;">
                                     <div style="float: left; margin-left: 20px;">
@@ -76,12 +76,13 @@ window.onload = function () {
         });
 }
 
+
 // const viewCartButton = document.getElementById('cart-icon');
 // viewCartButton.addEventListener('click', function() {
 //     window.location.href = '/cart.html';
 // });
 
-function addToCart(productId) {
+function addItemToCart(productId) {
     fetch('/cart/addItem', {
         method: 'POST',
         body: JSON.stringify({ productId }),
@@ -91,10 +92,9 @@ function addToCart(productId) {
     })
         .then(response => {
             if (response.ok) {
-                const badge = document.querySelector('.cart-icon .badge');
-                const currentCount = parseInt(badge.innerText);
-                badge.innerText = currentCount + 1;
-                console.log('Product added to cart!');
+                // const badge = document.querySelector('.cart-icon .badge');
+                // const currentCount = parseInt(badge.innerText);
+                // badge.innerText = currentCount + 1;
 
                 // Update cart data in local storage
                 const cartData = sessionStorage.getItem('cart');
@@ -107,6 +107,7 @@ function addToCart(productId) {
                 }
                 cart[productId] += 1;
                 sessionStorage.setItem('cart', JSON.stringify(cart));
+                console.log('Product added to cart!');
             } else {
                 console.log('Error adding product to cart');
             }
