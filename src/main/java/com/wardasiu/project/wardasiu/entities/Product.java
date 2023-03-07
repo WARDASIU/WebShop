@@ -37,6 +37,16 @@ public class Product {
     @Column(name = "in_stock")
     private int inStock;
 
+    @Setter
+    @Getter
+    @Column(name = "detailed_description")
+    private String detailedDescription;
+
+    @Setter
+    @Getter
+    @Column(name = "sizes")
+    private String sizes;
+
     public Product(final Long id, final String name, final String description, final int price, final int inStock) {
         this.idProducts = id;
         this.name = name;
