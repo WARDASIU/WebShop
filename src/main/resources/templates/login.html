@@ -61,35 +61,46 @@
 </nav>
 
 <div class="container text-center col-lg-3" style="margin-top: 50px;">
-    <form class="form-signin" th:action="@{/login}" method="post">
+    <form class="form-signin" th:action="@{/login}" method="post" id="login-form">
         <h3 th:if="${loginError}" class="error" style="margin: 15px">Wrong user or password</h3>
         <h1 class="h3 mb-3 font-weight-normal">Zaloguj sie</h1>
-        <label for="username" class="sr-only">Login</label>
+        <label for="username" class="sr-only">Nazwa użytkownika</label>
         <input type="text" name="username" id="username" class="form-control" placeholder="Login" required autofocus>
 
-        <label for="password" class="sr-only">Password</label>
+        <label for="password" class="sr-only">Hasło</label>
         <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
+        <p class="text-muted">&copy; EasyStep</p>
     </form>
-</div>
 
-<div class="container text-center col-lg-3" style="margin-top: 50px;">
-    <form class="form-signin" th:action="@{/register}" method="post">
+    <form class="form-signin" th:action="@{/register}" method="post" id="register-form" style="display: none">
         <h1 class="h3 mb-3 font-weight-normal">Zarejestruj się</h1>
-        <label for="usernameToRegister" class="sr-only">Login</label>
+        <label for="usernameToRegister" class="sr-only">Nazwa użytkownika</label>
         <input type="text" name="usernameToRegister" id="usernameToRegister" class="form-control" placeholder="Login" required autofocus>
 
-        <label for="passwordToRegister" class="sr-only">Password</label>
+        <label for="passwordToRegister" class="sr-only">Hasło</label>
         <input type="password" name="passwordToRegister" id="passwordToRegister" class="form-control" placeholder="Hasło" required>
 
         <label for="emailToRegister" class="sr-only">Email</label>
-        <input type="email" name="emailToRegister" id="emailToRegister" class="form-control" placeholder="Email" required autofocus>
+        <input type="email" name="emailToRegister" id="emailToRegister" class="form-control" placeholder="Email" required>
+
+        <label for="newsletter">
+            <input type="checkbox" name="newsletter" id="newsletter" value="true">
+            Sign me up for the newsletter!
+        </label>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Stworz konto</button>
         <p class="text-muted">&copy; EasyStep</p>
     </form>
 </div>
 
+<div id="form-switcher">
+    <p id="login-link"><a href="#" style="display: none">Zaloguj się</a></p>
+    <p id="register-link">Nie masz konta? <a href="#">Zarejestruj się tutaj!</a></p>
+</div>
+
+
+<script type="text/javascript" th:src="@{/showHideForms.js}"></script>
 </body>
 </html>
