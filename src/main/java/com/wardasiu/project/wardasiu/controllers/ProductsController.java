@@ -22,18 +22,19 @@ public class ProductsController {
         this.productsRepository = productsRepository;
     }
 
-    @GetMapping("/product/{name}")
-    public ResponseEntity<Product> findProductByName(@PathVariable(value = "name") String name) {
-        Optional<Product> product = productsRepository.findProductByName(name);
+    @GetMapping("/product/{productId}")
+    public ModelAndView getDetailedProductView(@PathVariable Long productId) {
+        // Get product data from database using the productId parameter
+        Optional<Product> product = productsRepository.findProductByIdProducts(productId);
 
-        return product.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+        // Create a new ModelAndView object with the "product" view name
+        ModelAndView modelAndView = new ModelAndView("detailed-product-view");
 
-    @GetMapping("/product/{Id}")
-    public ResponseEntity<Product> findProductById(@PathVariable(value = "Id") long id) {
-        Optional<Product> product = productsRepository.findProductByIdProducts(id);
+        // Add the product data to the ModelAndView object as a model attribute
+        modelAndView.addObject("detailed-product-view", product);
 
-        return product.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+        // Return the ModelAndView object
+        return modelAndView;
     }
 
     @GetMapping("/api/products/{productId}")

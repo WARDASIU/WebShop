@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/home.css}">
-    <link rel="stylesheet" type="text/css" href="../static/home.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/main/home.css}">
+    <link rel="stylesheet" type="text/css" href="../static/main/home.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -96,11 +96,11 @@
 </div>
 
 <div id="form-switcher">
-    <p id="login-link"><a href="#" style="display: none">Zaloguj się</a></p>
+    <p id="login-link" style="display: none"><a href="#">Zaloguj się</a></p>
     <p id="register-link">Nie masz konta? <a href="#">Zarejestruj się tutaj!</a></p>
 </div>
 
 
-<script type="text/javascript" th:src="@{/showHideForms.js}"></script>
+<script type="text/javascript" th:src="@{/login/showHideForms.js}"></script>
 </body>
 </html>

@@ -13,11 +13,11 @@ window.onload = function () {
                 }
 
                 element.innerHTML = `
-                                  <div class="main-image" onclick="window.location.href='/products/${item.idProducts}'">
+                                  <div class="main-image" onclick="displayProduct(${idProduct})">
                                     <img src="${imagesHTML[0]}" alt="" id='produkt_${idProduct}'>
                                   </div>
                                   <div class="col-text" style="padding: 20px">
-                                    <div onclick="window.location.href='/products/${item.idProducts}'">                             
+                                    <div onclick="displayProduct(${idProduct})">                             
                                       <h4>${item.name}</h4>
                                       <h6>${item.description}</h6>
                                       <h6>${item.price}</h6>                                 
@@ -75,12 +75,6 @@ window.onload = function () {
             })
         });
 }
-
-
-// const viewCartButton = document.getElementById('cart-icon');
-// viewCartButton.addEventListener('click', function() {
-//     window.location.href = '/cart.html';
-// });
 
 function addItemToCart(productId) {
     fetch('/cart/addItem', {
