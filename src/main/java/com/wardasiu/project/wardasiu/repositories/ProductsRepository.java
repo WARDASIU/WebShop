@@ -16,6 +16,11 @@ public interface ProductsRepository extends PagingAndSortingRepository<Product, 
 
     Optional<Product> findProductByNameContains(@Param("name") String name);
 
+    void deleteProductByIdProducts(long id);
+
+    @Override
+    void delete(Product entity);
+
     @Override
     <S extends Product> S save(S entity);
 }

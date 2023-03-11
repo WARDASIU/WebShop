@@ -1,3 +1,7 @@
+tr {
+    min-height: 200px;
+}
+
 .sidepanel {
     position: fixed;
     top: 0;

@@ -3,16 +3,21 @@ package com.wardasiu.project.wardasiu.controllers;
 import com.google.gson.Gson;
 import com.wardasiu.project.wardasiu.entities.Product;
 import com.wardasiu.project.wardasiu.repositories.ProductsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 public class ProductsController {
     private final ProductsRepository productsRepository;
@@ -77,5 +82,60 @@ public class ProductsController {
         modelAndView.addObject("productAdded", "Product added!");
 
         return modelAndView;
+    }
+
+//    @PutMapping("/api/products/{id}")
+//    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) throws IllegalAccessException {
+//        Optional<Product> optionalProduct = productsRepository.findById(id);
+//        if (optionalProduct.isPresent()) {
+//            Product product = optionalProduct.get();
+//            Field[] fields = updatedProduct.getClass().getDeclaredFields();
+//            for (Field field : fields) {
+//                field.setAccessible(true);
+//                Object value = field.get(updatedProduct);
+//                if (value != null && !value.equals(field.get(product))) {
+//                    log.info("Field {} has value {}", field.getName(), value.toString());
+//                    field.set(product, value);
+//                }
+//            }
+//            productsRepository.save(product);
+//            return ResponseEntity.ok(product);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
+    @PutMapping("/api/products/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long id,
+                                                 @RequestBody Map<String, Object> productDetails) throws IllegalAccessException {
+        Optional<Product> product = productsRepository.findById(id);
+        if (product.isPresent()) {
+            Product existingProduct = product.get();
+            for (Map.Entry<String, Object> entry : productDetails.entrySet()) {
+                String fieldName = entry.getKey();
+                Object fieldValue = entry.getValue();
+                Field field = ReflectionUtils.findField(Product.class, fieldName);
+                if (field != null) {
+                    field.setAccessible(true);
+                    if (field.getType() == int.class) {
+                        field.set(existingProduct, Integer.parseInt((String) fieldValue));
+                    } else {
+                        field.set(existingProduct, fieldValue);
+                    }
+                }
+            }
+            Product updatedProduct = productsRepository.save(existingProduct);
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/api/products/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        Optional<Product> optionalProduct = productsRepository.findProductByIdProducts(id);
+        optionalProduct.ifPresent(productsRepository::delete);
+
+        return ResponseEntity.ok().build();
     }
 }
