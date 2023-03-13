@@ -73,37 +73,13 @@ public class ProductsController {
     }
 
     @PostMapping("/admin")
-    public ModelAndView addProduct(String name, String description,
+    public ResponseEntity<?> addProduct(String name, String description,
                                   int price, int in_stock) {
         long nextId = productsRepository.findAll().stream().mapToLong(Product::getIdProducts).max().orElse(0) + 1;
         productsRepository.save(new Product(nextId, name, description, price, in_stock));
 
-        ModelAndView modelAndView = new ModelAndView("admin");
-        modelAndView.addObject("productAdded", "Product added!");
-
-        return modelAndView;
+        return ResponseEntity.ok().build();
     }
-
-//    @PutMapping("/api/products/{id}")
-//    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) throws IllegalAccessException {
-//        Optional<Product> optionalProduct = productsRepository.findById(id);
-//        if (optionalProduct.isPresent()) {
-//            Product product = optionalProduct.get();
-//            Field[] fields = updatedProduct.getClass().getDeclaredFields();
-//            for (Field field : fields) {
-//                field.setAccessible(true);
-//                Object value = field.get(updatedProduct);
-//                if (value != null && !value.equals(field.get(product))) {
-//                    log.info("Field {} has value {}", field.getName(), value.toString());
-//                    field.set(product, value);
-//                }
-//            }
-//            productsRepository.save(product);
-//            return ResponseEntity.ok(product);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
     @PutMapping("/api/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long id,

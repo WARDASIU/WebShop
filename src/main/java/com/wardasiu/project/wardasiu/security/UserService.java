@@ -11,9 +11,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -59,5 +62,29 @@ public class UserService implements UserDetailsService {
 
     public User findUserByUsername(final String name) {
         return userRepository.findByUsername(name);
+    }
+
+    public void updateUser(User user, Map<String, Object> updateFields) {
+        for (Map.Entry<String, Object> entry : updateFields.entrySet()) {
+            String fieldName = entry.getKey();
+            Object fieldValue = entry.getValue();
+            Field field = ReflectionUtils.findField(User.class, fieldName);
+            if (field != null) {
+                field.setAccessible(true);
+                try {
+                    if (field.getType() == Integer.class && fieldValue instanceof String) {
+                        fieldValue = Integer.parseInt((String) fieldValue);
+                    }
+                    if (field.getType() == boolean.class && fieldValue instanceof String) {
+                        fieldValue = Boolean.valueOf((String) fieldValue);
+                    }
+
+                    field.set(user, fieldValue);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Error updating user field: " + fieldName, e);
+                }
+            }
+        }
+        userRepository.save(user);
     }
 }

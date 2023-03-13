@@ -19,6 +19,7 @@ public class SecurityConfig {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/admin/**").hasAuthority("ADMIN")
                         .antMatchers("/admin").hasAuthority("ADMIN")
+                        .antMatchers("/profile").hasAnyAuthority("ADMIN", "NORMAL")
                         .anyRequest().permitAll()
                 )
                 .formLogin()

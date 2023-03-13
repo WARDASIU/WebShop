@@ -31,6 +31,19 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    private boolean newsletter;
+
+    private String name;
+
+    private String surname;
+
+    private Integer phone;
+
+    private String address;
+
+    @Column(name = "post_code")
+    private String postCode;
+
     public User(final String username, final String password, final String role, final String email) {
         this.username = username;
         this.password = password;
