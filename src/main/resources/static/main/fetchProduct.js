@@ -1,6 +1,6 @@
 window.onload = function () {
     let count = 0;
-    fetch('http://localhost:8080/api/products')
+    fetch('/api/products')
         .then(response => response.json())
         .then(products => {
             count++;

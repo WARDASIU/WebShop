@@ -1,6 +1,5 @@
 const addProductLink = document.querySelector(".add-product");
 const editProductLink = document.querySelector(".edit-product");
-const deleteProductLink = document.querySelector(".delete-product");
 const formContainer = document.querySelector(".form-container");
 
 addProductLink.addEventListener("click", () => {
@@ -24,7 +23,7 @@ editProductLink.addEventListener("click", () => {
     formContainer.innerHTML = `
       
 `;
-    fetch('http://localhost:8080/api/products')
+    fetch('/api/products')
         .then(response => response.json())
         .then(products => {
             const table = document.createElement('table');
@@ -145,13 +144,4 @@ editProductLink.addEventListener("click", () => {
         const data = await response.json();
         return data;
     }
-});
-
-deleteProductLink.addEventListener("click", () => {
-    formContainer.innerHTML = `
-      <h2>Delete product</h2>
-      <form>
-        <!-- form fields for deleting a product -->
-      </form>
-    `;
 });

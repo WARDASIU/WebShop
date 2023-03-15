@@ -2,6 +2,7 @@ package com.wardasiu.project.wardasiu.controllers;
 
 import com.wardasiu.project.wardasiu.entities.User;
 import com.wardasiu.project.wardasiu.security.UserService;
+import com.wardasiu.project.wardasiu.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -18,6 +21,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/register")
     public ModelAndView registerUser(@RequestParam String usernameToRegister,
@@ -55,6 +61,20 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
         userService.updateUser(user, updateFields);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/admin/sendMail")
+    public ResponseEntity<?> sendNewsletter(@RequestParam String title,
+                                            @RequestParam String subject,
+                                            @RequestParam String isHtml){
+        List<User> newsletterUsers = userService.getAllUsersWithNewsletter();
+        try {
+            emailService.sendEmail(newsletterUsers, title, subject, Boolean.parseBoolean(isHtml));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
         return ResponseEntity.ok().build();
     }

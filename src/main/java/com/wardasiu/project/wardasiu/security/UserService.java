@@ -16,6 +16,7 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -86,5 +87,9 @@ public class UserService implements UserDetailsService {
             }
         }
         userRepository.save(user);
+    }
+
+    public List<User> getAllUsersWithNewsletter(){
+        return userRepository.findAllByNewsletter();
     }
 }

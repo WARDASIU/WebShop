@@ -1,5 +1,5 @@
 window.onload = function () {
-    fetch('http://localhost:8080/api/products')
+    fetch('/api/products')
         .then(response => response.json())
         .then(products => {
             const container = document.getElementById('products');

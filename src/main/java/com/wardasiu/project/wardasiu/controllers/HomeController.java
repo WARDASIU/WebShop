@@ -1,9 +1,12 @@
 package com.wardasiu.project.wardasiu.controllers;
 
+import com.wardasiu.project.wardasiu.service.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
