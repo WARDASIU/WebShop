@@ -89,7 +89,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public List<User> getAllUsersWithNewsletter(){
-        return userRepository.findAllByNewsletter();
-    }
+//    public List<User> getAllUsersWithNewsletter(){
+//        return userRepository.findAllByNewsletter();
+//    }
 }

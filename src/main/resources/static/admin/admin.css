@@ -32,3 +32,8 @@ tr {
 #zamowienia {
     padding: 20px;
 }
+
+.deleteButton {
+    background-color: black;
+    color: white;
+}

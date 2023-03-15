@@ -12,7 +12,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>{
 
     User findByEmail(String email);
     User findByUsername(String username);
-    List<User> findAllByNewsletter();
+//    List<User> findAllByNewsletter();
     @Override
     <S extends User> S save(S entity);
 }

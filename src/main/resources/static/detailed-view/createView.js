@@ -26,23 +26,24 @@ function fetchDataFromEndpoint(productId) {
             </div> 
           <div class="store">
             <div class="product-info">
-              <div class="product-title">Product Title</div>
+              <div class="product-title">${product.name}</div>
               <div class="product-description">
                ${product.detailedDescription}
               </div>
             </div>
             <div class="cart-info">
               <div class="sizes">
-                <div>Please choose size:</div>
+                <div>Wybierz rozmiar:</div>
                 <div>
                   ${generateSizes(product.sizes)}
                 </div>
               </div>
               <div class="product-price">
-                <span>Price:</span><span>${product.price} PLN</span>
+                <span>Cena:</span><span>${product.price} ZŁ</span>
               </div>
               <div class="cart-controls">
-                <div class="add-to-cart-btn" onclick='addItemToCart(${product.idProducts})'>Add to cart</div>
+                <div class="add-to-cart-btn" onclick='addItemToCart(${product.idProducts})' style="margin-bottom: 25px">Dodaj do koszyka</div>
+                <div class="add-to-cart-btn">Kup teraz!</div>
               </div>
             </div>
           </div>

@@ -31,12 +31,12 @@ editProductLink.addEventListener("click", () => {
             table.innerHTML = `
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>In Stock</th>
-                    <th>Detailed Description</th>
-                    <th>Sizes</th>
+                    <th>Nazwa</th>
+                    <th>Opis</th>
+                    <th>Cena</th>
+                    <th>Ilość</th>
+                    <th>Szczegółowy opis</th>
+                    <th>Rozmiary</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +53,8 @@ editProductLink.addEventListener("click", () => {
                 const tdSizes = createEditableCell(item.sizes, 'sizes', item.idProducts);
                 const tdDelete = document.createElement('td');
                 const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
+                deleteButton.className = "deleteButton";
+                deleteButton.textContent = 'Usuń produkt';
                 deleteButton.addEventListener('click', function() {
                     deleteProduct(item.idProducts);
                     tr.remove();

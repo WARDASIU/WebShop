@@ -6,6 +6,7 @@
     width: 100%;
     margin-bottom: 20px;
     cursor: pointer;
+    height: 500px;
 }
 
 .product-tile:hover{
@@ -43,7 +44,6 @@
 }
 
 .product-tile-addition{
-    height: 500px;
     display: inline-block;
     position: relative;
     overflow: hidden;
@@ -90,8 +90,8 @@
 
 .add-to-cart {
     display: inline-block;
-    background-color: #007bff; /* or any other desired color */
-    color: #fff; /* or any other desired color */
+    background-color: #8a5401; /* or any other desired color */
+    color: black; /* or any other desired color */
     border: none;
     border-radius: 5px; /* or any other desired border radius */
     padding: 10px 20px; /* or any other desired padding */
