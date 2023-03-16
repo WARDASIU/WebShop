@@ -9,6 +9,35 @@
     <title>Product Title</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
+            <li><a class="nav-link" href="/products">Produkty</a></li>
+            <li><a class="nav-link" href="#">Baza wiedzy</a></li>
+            <li><a class="nav-link" href="#">Usługi</a></li>
+            <li><a class="nav-link" href="#">O nas</a></li>
+            <li th:unless="${isLoggedIn}">
+                <a class="nav-link" href="/login">Zaloguj się</a>
+            </li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Konto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/profile">Profil</a>
+                    <a class="dropdown-item" href="/logout" th:href="@{/logout}">Wyloguj</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <script type="text/javascript" th:src="@{/detailed-view/displayDetailedProductView.js}"></script>
 <script type="text/javascript" th:src="@{/detailed-view/createView.js}"></script>
 </body>

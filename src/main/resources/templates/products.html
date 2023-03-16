@@ -30,11 +30,24 @@
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li><a class="nav-link" href="/">Strona główna</a></li>
-            <li><a class="nav-link" href="/products">Produkty<span class="sr-only">(current)</span></a></li>
+            <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
+            <li><a class="nav-link" href="/products">Produkty</a></li>
             <li><a class="nav-link" href="#">Baza wiedzy</a></li>
             <li><a class="nav-link" href="#">Usługi</a></li>
             <li><a class="nav-link" href="#">O nas</a></li>
+            <li th:unless="${isLoggedIn}">
+                <a class="nav-link" href="/login">Zaloguj się</a>
+            </li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Konto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/profile">Profil</a>
+                    <a class="dropdown-item" href="/logout" th:href="@{/logout}">Wyloguj</a>
+                </div>
+            </li>
         </ul>
     </div>
 </nav>
