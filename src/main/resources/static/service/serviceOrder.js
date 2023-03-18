@@ -108,10 +108,10 @@ function showAdditionalFields() {
                 woodenConstructionLabel.setAttribute('for', 'rodzaj_konstrukcji');
                 woodenConstructionLabel.innerText = "Parametry konstrukcji drewnianej:";
 
-                const woodKindLabel1 = document.createElement("label");
-                woodKindLabel1.innerText = "Rodzaj drzewa - stopnie:";
-                const woodKindLabel2 = document.createElement("label");
-                woodKindLabel2.innerText = "Rodzaj drzewa - konstrukcja:";
+                const woodKindLabelSteps = document.createElement("label");
+                woodKindLabelSteps.innerText = "Rodzaj drzewa - stopnie:";
+                const woodKindLabelConstruction = document.createElement("label");
+                woodKindLabelConstruction.innerText = "Rodzaj drzewa - konstrukcja:";
 
                 const stairsWoodTypeSelect = document.createElement('select');
                 stairsWoodTypeSelect.classList.add('form-control');
@@ -141,11 +141,11 @@ function showAdditionalFields() {
                 stairsTypeDiv.appendChild(woodenConstructionLabel);
                 stairsTypeDiv.appendChild(stairsFloatGround);
                 stairsTypeDiv.appendChild(stepsTypeSelect);
-                stairsTypeDiv.appendChild(woodKindLabel1);
+                stairsTypeDiv.appendChild(woodKindLabelSteps);
                 stairsTypeDiv.appendChild(woodTypeSelect);
-                stairsTypeDiv.appendChild(woodKindLabel2);
-                stairsTypeDiv.appendChild(stairsWoodTypeSelect);
                 stairsTypeDiv.appendChild(stepsCountInput);
+                stairsTypeDiv.appendChild(woodKindLabelConstruction);
+                stairsTypeDiv.appendChild(stairsWoodTypeSelect);
 
                 additionalFieldsDiv.appendChild(stairsTypeDiv);
             } else if (constructionSelect.value === "metalowa") {

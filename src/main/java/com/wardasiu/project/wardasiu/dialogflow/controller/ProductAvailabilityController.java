@@ -16,7 +16,7 @@ public class ProductAvailabilityController {
     @Autowired
     private ProductsRepository productsRepository;
 
-    @PostMapping("/webhook")
+    @PostMapping(value = "/webhook")
     public ResponseEntity<Object> checkProductAvailability(@RequestBody Map<String, Object> payload) {
         Map<String, Object> queryResult = (Map<String, Object>) payload.get("queryResult");
         Map<String, Object> parameters = (Map<String, Object>) queryResult.get("parameters");
