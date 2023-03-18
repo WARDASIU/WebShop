@@ -1,142 +1,290 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Konfigurator stołów z żywicą</title>
     <meta charset="UTF-8">
-    <title>Konfigurator stołu</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
-    <style>
-        .leg-option {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 10px;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/main/home.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/personalizer/personalizer.css}">
+    <link rel="stylesheet" type="text/css" href="../static/main/home.css">
+    <link rel="stylesheet" type="text/css" href="../static/personalizer/personalizer.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/main/home.css}">
+    <link rel="stylesheet" type="text/css" href="../static/main/home.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://kit.fontawesome.com/ea7c74f2a3.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        .leg-option:hover {
-            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-        }
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
 
-        .leg-option img {
-            max-width: 100%;
-        }
 
-        .leg-option h3 {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .leg-option.active {
-            border: 2px solid #007bff;
-        }
-
-        .card-header h2 {
-            margin-bottom: 0;
-            font-size: 24px;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0069d9;
-            border-color: #0062cc;
-        }
-    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Konfigurator stołu</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h2>Kolor stołu</h2>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
+            <li><a class="nav-link" href="/products">Produkty</a></li>
+            <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy</a></li>
+            <li><a class="nav-link" href="/services">Usługi</a></li>
+            <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
+            <li th:unless="${isLoggedIn}">
+                <a class="nav-link" href="/login">Zaloguj</a>
+            </li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Konto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/profile">Profil</a>
+                    <a class="dropdown-item" href="/logout" th:href="@{/logout}">Wyloguj</a>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="table-width">Szerokość</label>
-                        <input type="number" class="form-control" id="table-width"
-                               placeholder="Wprowadź szerokość stołu">
-                    </div>
-                    <div class="form-group">
-                        <label for="table-length">Długość</label>
-                        <input type="number" class="form-control" id="table-length"
-                               placeholder="Wprowadź długość stołu">
-                    </div>
-                    <div class="form-group">
-                        <label for="table-height">Wysokość</label>
-                        <input type="number" class="form-control" id="table-height"
-                               placeholder="Wprowadź wysokość stołu">
-                    </div>
-                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="personalizer-container my-4" style="margin-top: 70px !important;">
+    <h1 class="title">Konfigurator stołów z żywicą</h1>
+    <form id="test">
+        <div class="form-group">
+            <label for="tableType">Rodzaj stołu:</label>
+            <select class="form-control" id="tableType">
+                <option value="only_resin">Kawałek żywicy jako blat</option>
+                <option value="full_resin">Żywica przez środek</option>
+                <option value="random_resin">Żywica losowo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="width">Szerokość:</label>
+            <input type="text" id="width" value="50">
+            <input type="range" id="width-slider" min="0" max="100" value="50" oninput="updateDimensions()">
+        </div>
+
+        <div class="form-group">
+            <label for="height">Wysokość:</label>
+            <input type="text" id="height" value="50">
+            <input type="range" id="height-slider" min="0" max="100" value="50" oninput="updateDimensions()">
+        </div>
+
+        <div class="form-group">
+            <label for="depth">Długość:</label>
+            <input type="text" id="depth" value="50">
+            <input type="range" id="depth-slider" min="0" max="100" value="50" oninput="updateDimensions()">
+        </div>
+
+
+        <div class="form-group">
+            <label for="color">Kolor stołu:</label><br>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#F2EDEB">
+                <span><p>F2EDEB</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#C8BEB7">
+                <span><p>C8BEB7</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#C4C1BA">
+                <span><p>C4C1BA</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#424242">
+                <span><p>424242</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#6B5849">
+                <span><p>6B5849</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#9D7E63">
+                <span><p>9D7E63</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#FDF1E7">
+                <span><p>FDF1E7</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#ECE2D0">
+                <span><p>ECE2D0</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#8B6E55">
+                <span><p>8B6E55</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="tableColor" value="#634E3C">
+                <span><p>634E3C</p></span>
+            </label>
+        </div>
+
+
+        <div class="form-group">
+            <label for="color">Kolor żywicy:</label><br>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#5bc0de">
+                <span><p>5bc0de</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#99d9ea">
+                <span><p>99d9ea</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#ccebff">
+                <span><p>ccebff</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#28a745">
+                <span><p>28a745</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#70c057">
+                <span><p>70c057</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#495057">
+                <span><p>495057</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#343a40">
+                <span><p>343a40</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#6c757d">
+                <span><p>6c757d</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#e9ecef">
+                <span><p>e9ecef</p></span>
+            </label>
+            <label class="form-check-label text-center">
+                <input type="radio" name="resinColor" value="#f8f9fa">
+                <span><p>f8f9fa</p></span>
+            </label>
+
+        </div>
+
+
+
+        <!--        <div class="form-group">-->
+<!--            <label for="resinColorInput">Kolor żywicy:</label>-->
+<!--            <input type="color" class="form-control" id="resinColorInput" value="#000000">-->
+<!--        </div>-->
+
+
+
+        <div class="form-group">
+            <label for="legType">Typ nóg stołu:</label>
+            <select class="form-control" id="legType">
+                <option value="wood">Drewno</option>
+                <option value="metal">Metal</option>
+            </select>
+        </div>
+
+        <div class="form-group woodType" id="woodType">
+            <label for="woodType">Rodzaj drewna dla nóg stołu:</label>
+            <select class="form-control">
+                <option value="oak">Dąb</option>
+                <option value="ash">Jesion</option>
+                <option value="beech">Buk</option>
+                <option value="walnut">Orzech</option>
+                <option value="cherry">Czereśnia</option>
+                <option value="mahogany">Mahoń</option>
+            </select>
+        </div>
+        <div class="form-group" id="metalLegs" style="display: none;">
+            <label for="metalType">Rodzaj metalu:</label>
+            <select class="form-control" id="metalType">
+                <option value="steel">Stal</option>
+                <option value="aluminum">Aluminium</option>
+                <option value="copper">Miedź</option>
+                <option value="brass">Mosiądz</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="tableShape">Kształt stołu:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="tableShape" id="rectangleInput" value="rectangle" checked>
+                <label class="form-check-label" for="rectangleInput" id="rectangleLabel">
+                    Prostokąt
+                </label>
             </div>
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h2>Wybierz nogi stołu</h2>
-                </div>
-                <div class="card-body">
-                    <div class="leg-option active">
-                        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba"
-                             alt="Noga ze stali nierdzewnej">
-                        <h3>Stal nierdzewna</h3>
-                    </div>
-                    <div class="leg-option">
-                        <img src="https://images.unsplash.com/photo-1598515092615-38e31b6f4242" alt="Noga drewniana">
-                        <h3>Drewno</h3>
-                    </div>
-                    <div class="leg-option">
-                        <img src="https://images.unsplash.com/photo-1589368958128-b6a0d6f0f6c3" alt="Noga z mosiądzu">
-                        <h3>Mosiądz</h3>
-                    </div>
-                    <div class="leg-option">
-                        <img src="https://images.unsplash.com/photo-1581934176484-a377f4b57872" alt="Noga ze szkła">
-                        <h3>Szkło</h3>
-                    </div>
-                </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="tableShape" id="roundInput" value="round">
+                <label class="form-check-label" for="roundInput" id="roundLabel">
+                    Okrągły
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="tableShape" id="ovalInput" value="oval">
+                <label class="form-check-label" for="ovalInput" id="ovalLabel">
+                    Owalny
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="tableShape" id="squareInput" value="square">
+                <label class="form-check-label shape-label" for="squareInput" id="squareLabel">
+                    Kwadrat
+                </label>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button class="btn btn-primary btn-lg">Zamów stoł</button>
+
+
+
+        <div class="form-group">
+            <label for="deliveryMethod">Sposób dostawy:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="deliveryMethod" id="pickup" value="pickup" checked>
+                <label class="form-check-label" for="pickup">
+                    Odbiór osobisty
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="deliveryMethod" id="courier" value="courier">
+                <label class="form-check-label" for="courier">
+                    Kurier
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="deliveryMethod" id="transport" value="transport">
+                <label class="form-check-label" for="transport">
+                    Transport na terenie Polski
+                </label>
+            </div>
         </div>
+        <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
+        <button class="btn btn-primary" onclick="generateAIImage()">Stworz poglądowy obrazek</button>
+    </form>
+
+    <div id="coffee-table-image-container">
+        <p id="waiting-message">Generating image...</p>
     </div>
+
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('.leg-option').click(function() {
-            $('.leg-option').removeClass('active');
-            $(this).addClass('active');
-        });
-
-        $('button').click(function() {
-            var width = $('#table-width').val();
-            var length = $('#table-length').val();
-            var height = $('#table-height').val();
-            var legType = $('.leg-option.active h3').text();
-
-            var order = 'Zamawiam stół o wymiarach ' + width + 'cm x ' + length + 'cm x ' + height + 'cm z nogami typu ' + legType + '.';
-
-            alert(order);
-        });
-    });
-
-</script>
+<script type="text/javascript" th:src="@{/personalizer/personalizer.js}"></script>
+<script type="text/javascript" src="../static/personalizer/personalizer.js"></script>
+<script type="text/javascript" src="../static/personalizer/generateImage.js"></script>
 </body>
 </html>
