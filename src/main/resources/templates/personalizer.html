@@ -45,6 +45,7 @@
             <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy</a></li>
             <li><a class="nav-link" href="/services">Usługi</a></li>
             <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
+            <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
             <li th:unless="${isLoggedIn}">
                 <a class="nav-link" href="/login">Zaloguj</a>
             </li>
@@ -68,10 +69,11 @@
     <form id="test">
         <div class="form-group">
             <label for="tableType">Rodzaj stołu:</label>
-            <select class="form-control" id="tableType">
-                <option value="only_resin">Kawałek żywicy jako blat</option>
-                <option value="full_resin">Żywica przez środek</option>
-                <option value="random_resin">Żywica losowo</option>
+            <select class="form-control" id="tableType" name="tableType" th:default="office">
+                <option value="office">Biurowy</option>
+                <option value="dining">Jadalny</option>
+                <option value="coffee">Kawowy</option>
+                <option value="conference">Konferencyjny</option>
             </select>
         </div>
         <div class="form-group">
@@ -194,7 +196,7 @@
 
         <div class="form-group">
             <label for="legType">Typ nóg stołu:</label>
-            <select class="form-control" id="legType">
+            <select class="form-control" id="legType" name="legType" th:default="wood">
                 <option value="wood">Drewno</option>
                 <option value="metal">Metal</option>
             </select>
@@ -267,24 +269,20 @@
                     Kurier
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="deliveryMethod" id="transport" value="transport">
-                <label class="form-check-label" for="transport">
-                    Transport na terenie Polski
-                </label>
-            </div>
         </div>
         <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
         <button class="btn btn-primary" onclick="generateAIImage()">Stworz poglądowy obrazek</button>
     </form>
 
     <div id="coffee-table-image-container">
-        <p id="waiting-message">Generating image...</p>
+        <p id="waiting-message">Generowanie obrazu...</p>
+        <p id="ready-message">Należy pamiętać, że obraz jest tylko poglądowy!</p>
     </div>
 
 </div>
 <script type="text/javascript" th:src="@{/personalizer/personalizer.js}"></script>
 <script type="text/javascript" src="../static/personalizer/personalizer.js"></script>
+<script type="text/javascript" th:src="@{/personalizer/generateImage.js}"></script>
 <script type="text/javascript" src="../static/personalizer/generateImage.js"></script>
 </body>
 </html>

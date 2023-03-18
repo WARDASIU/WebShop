@@ -29,7 +29,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg fixed-top">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,11 +38,12 @@
         <ul class="navbar-nav">
             <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
             <li><a class="nav-link" href="/products">Produkty</a></li>
-            <li><a class="nav-link" href="#">Baza wiedzy</a></li>
-            <li><a class="nav-link" href="#">Usługi</a></li>
-            <li><a class="nav-link" href="#">O nas</a></li>
+            <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy</a></li>
+            <li><a class="nav-link" href="/services">Usługi</a></li>
+            <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
+            <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
             <li th:unless="${isLoggedIn}">
-                <a class="nav-link" href="/login">Zaloguj się</a>
+                <a class="nav-link" href="/login">Zaloguj</a>
             </li>
             <li th:if="${isLoggedIn}" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"

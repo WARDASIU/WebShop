@@ -8,23 +8,20 @@ function generateAIImage(){
         waitingMessage.style.display = 'block';
 
         const formData = new FormData(event.target);
-        console.log(`big color ${formData.get('tableColor')} table 
-                 with color ${formData.get('resinColor')} resin/epoxy
-                 ${formData.get('tableShape')} shape 
+        console.log(`big ${formData.get('tableColor')} colored ${formData.get('tableType')} table                
+                 with ${formData.get('resinColor')} colored resin/epoxy in
+                 and ${formData.get('tableShape')} shape 
                  with ${formData.get('legType')} legs
         `);
         const response = await fetch('https://api.openai.com/v1/images/generations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer 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'
+                'Authorization': 'Bearer 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'
             },
             body: JSON.stringify({
                 model: 'image-alpha-001',
-                prompt: `big ${formData.get('tableColor')} table 
-                 with ${formData.get('resinColor')} resin/epoxy
-                 ${formData.get('tableShape')} shape 
-                 with ${formData.get('legType')} legs`,
+                prompt: `big ${formData.get('tableColor')} colored ${formData.get('tableType')} table with ${formData.get('resinColor')} color epoxy in and ${formData.get('tableShape')} shape with ${formData.get('legType')} legs`,
                 num_images: 1,
                 size: '512x512',
                 response_format: 'url'

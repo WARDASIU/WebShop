@@ -36,16 +36,17 @@
         <ul class="navbar-nav">
             <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
             <li><a class="nav-link" href="/products">Produkty</a></li>
-            <li><a class="nav-link" href="#">Baza wiedzy</a></li>
-            <li><a class="nav-link" href="#">Usługi</a></li>
-            <li><a class="nav-link" href="#">O nas</a></li>
-            <li class="nav-item dropdown">
+            <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy</a></li>
+            <li><a class="nav-link" href="/services">Usługi</a></li>
+            <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
+            <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Konto
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/profile" th:href="@{/profile}">Profil</a>
+                    <a class="dropdown-item" href="/profile">Profil</a>
                     <a class="dropdown-item" href="/logout" th:href="@{/logout}">Wyloguj</a>
                 </div>
             </li>
