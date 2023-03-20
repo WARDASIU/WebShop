@@ -65,28 +65,10 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/admin/sendMail")
+    @GetMapping("/sendMail")
     public ResponseEntity<?> sendNewsletter() {
-        try {
-            emailService.sendEmail("pepe-pepe2044@wp.pl", "title", "subject", true);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        emailService.sendSimpleEmail("pepe-pepe2044@wp.pl","ABC","ABC");
 
         return ResponseEntity.ok().build();
     }
-
-//    @PostMapping("/admin/sendMail")
-//    public ResponseEntity<?> sendNewsletter(@RequestParam String title,
-//                                            @RequestParam String subject,
-//                                            @RequestParam String isHtml){
-//        List<User> newsletterUsers = userService.getAllUsersWithNewsletter();
-//        try {
-//            emailService.sendEmail(newsletterUsers, title, subject, Boolean.parseBoolean(isHtml));
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return ResponseEntity.ok().build();
-//    }
 }
