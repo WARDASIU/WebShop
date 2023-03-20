@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -16,7 +17,8 @@ public class ProductAvailabilityController {
     @Autowired
     private ProductsRepository productsRepository;
 
-    @PostMapping(value = "/webhook")
+
+    @PostMapping("/webhook")
     public ResponseEntity<Object> checkProductAvailability(@RequestBody Map<String, Object> payload) {
         Map<String, Object> queryResult = (Map<String, Object>) payload.get("queryResult");
         Map<String, Object> parameters = (Map<String, Object>) queryResult.get("parameters");
@@ -33,5 +35,14 @@ public class ProductAvailabilityController {
             response.put("fulfillmentText", "Produkt " + productNameParameter + " nie istnieje, bądź nie jest dostępny!");
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "https://easystep.ddns.net:1000/chuj", produces = "text/html", method = RequestMethod.GET)
+    public String asd(){
+        return "chuj";
+    }
+    @RequestMapping(value = "easystep.ddns.net:1000/chuj2", produces = "text/html", method = RequestMethod.GET)
+    public String ashjkld(){
+        return "chuj";
     }
 }
