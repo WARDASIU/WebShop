@@ -11,10 +11,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.mail.MessagingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -65,10 +68,25 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/sendMail")
-    public ResponseEntity<?> sendNewsletter() {
-        emailService.sendSimpleEmail("pepe-pepe2044@wp.pl","ABC","ABC");
+    @PostMapping("/admin/sendMail")
+    public ResponseEntity<?> sendNewsletter(@RequestParam String title,
+                                            @RequestParam String subject,
+                                            @RequestParam(defaultValue = "false") String inHtml) {
+        List<String> userEmails = userService.getUsersWithNewsletter()
+                .stream()
+                .map(User::getEmail)
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok().build();
+        if (Objects.equals(inHtml, "false")) {
+            emailService.sendNewsletter(userEmails, title, subject);
+        } else {
+            emailService.sendHtmlNewsletter(userEmails, title, subject);
+        }
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("success", true);
+        responseBody.put("message", "Newsletter został wysłany!");
+
+        return ResponseEntity.ok(responseBody);
     }
 }

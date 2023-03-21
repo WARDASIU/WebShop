@@ -9,10 +9,11 @@ import java.util.List;
 @RepositoryRestResource
 public interface UserRepository extends PagingAndSortingRepository<User, Long>{
     List<User> findAll();
+    List<User> findAllByNewsletterTrue();
 
     User findByEmail(String email);
     User findByUsername(String username);
-//    List<User> findAllByNewsletter();
+
     @Override
     <S extends User> S save(S entity);
 }

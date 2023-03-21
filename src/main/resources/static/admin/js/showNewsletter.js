@@ -1,22 +1,30 @@
-const sendNewsletterLink = document.querySelector(".send-newsletter");
+const form = document.querySelector('.newsletter-form');
+const spinner = document.querySelector('.spinner-border');
+const alert = document.querySelector('.alert');
 
-sendNewsletterLink.addEventListener("click", (event) => {
+form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    formContainer.innerHTML = `
-    <div class="container text-center" style="margin-top: 50px; width: 100%"></div>
-      <form class="newsletter-form form-signin text-center" th:action="@{/admin/sendMail}" method="POST">
-        <h2>Wyslij newsletter</h2>
-        <label for="title">Tytuł maila:</label>
-        <input type="text" id="title" name="title" class="form-control" placeholder="Tytuł maila" required>
-        
-        <label for="subject">Treść maila:</label>
-        <input type="text" id="subject" name="subject" class="form-control" placeholder="Treść maila" required>   
-     
-        <label for="inHtml">Treść w HTML?</label>
-        <input type="checkbox" id="title" name="inHtml" class="form-control" required>
-     
-        <button type="submit">Wyslij</button>
-      </form>
-    `;
+    spinner.classList.remove('d-none');
+    const formData = new FormData(form);
+
+    fetch('/admin/sendMail', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert.classList.remove('d-none');
+                alert.querySelector('strong').textContent = data.message;
+                form.reset();
+            } else {
+                alert.classList.add('d-none');
+                alert.querySelector('strong').textContent = 'An error occurred while sending the email';
+            }
+        })
+        .catch(error => console.error(error))
+        .finally(() => {
+            spinner.classList.add('d-none');
+        });
 });

@@ -19,6 +19,12 @@ public class HomeController {
         boolean isLoggedIn = authentication != null;
         modelAndView.addObject("isLoggedIn", isLoggedIn);
 
+        if (isLoggedIn) {
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+            modelAndView.addObject("isAdmin", isAdmin);
+        }
+
         return modelAndView;
     }
 

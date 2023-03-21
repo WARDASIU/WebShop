@@ -36,13 +36,4 @@ public class ProductAvailabilityController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    @RequestMapping(value = "https://easystep.ddns.net:1000/chuj", produces = "text/html", method = RequestMethod.GET)
-    public String asd(){
-        return "chuj";
-    }
-    @RequestMapping(value = "easystep.ddns.net:1000/chuj2", produces = "text/html", method = RequestMethod.GET)
-    public String ashjkld(){
-        return "chuj";
-    }
 }
