@@ -5,13 +5,16 @@ async function getProductById(productId) {
 }
 
 async function displayCart() {
+    const modalBackground = document.createElement('div');
+    modalBackground.classList.add('modal-background');
+    document.body.appendChild(modalBackground);
+
     const cartData = sessionStorage.getItem('cart');
     let cart = {};
     if (cartData) {
         cart = JSON.parse(cartData);
     }
 
-    // Remove cart window if it already exists
     const cartWindow = document.getElementById('cart-window');
     if (cartWindow) {
         document.body.removeChild(cartWindow);
@@ -27,7 +30,7 @@ async function displayCart() {
     cartTitle.innerText = 'Cart';
 
     const closeButton = document.createElement('button');
-    closeButton.innerHTML = '&#9664;'; // Use left arrow symbol as button text
+    closeButton.innerHTML = '&#9664;';
     closeButton.id = 'cart-close-button';
     closeButton.addEventListener('click', closeCart);
 
@@ -74,10 +77,16 @@ async function displayCart() {
             removeButton.innerText = '-';
             removeButton.addEventListener('click', () => removeFromCart(productId));
 
+            const buyButton = document.createElement('button');
+            buyButton.innerText = 'Złóż zamówienie';
+            buyButton.className = 'buy-products';
+            buyButton.addEventListener('click', () => buyProductsInCart());
+
             productElement.appendChild(addButton);
             productElement.appendChild(removeButton);
 
             cartContent.appendChild(productElement);
+            cartContent.appendChild(buyButton);
         }
     }
 
@@ -89,6 +98,13 @@ async function displayCart() {
     document.body.appendChild(newCartWindow);
 }
 
+function closeCart() {
+    const cartWindow = document.getElementById('cart-window');
+    document.body.removeChild(cartWindow);
+
+    const modalBackground = document.querySelector('.modal-background');
+    document.body.removeChild(modalBackground);
+}
 
 async function updateCartData() {
     const cartWindow = document.getElementById('cart-window');
@@ -110,11 +126,19 @@ async function updateCartData() {
                     totalPrice += productTotal;
                     product.querySelector('.product-quantity').innerText = `${quantity} sztuki`;
                     product.querySelector('.product-price').innerText = `${productTotal.toFixed(2)} zł`;
+                    if (quantity === 0) {
+                        product.remove();
+                        delete cart[productId];
+                    }
                 } else {
                     product.remove();
                     delete cart[productId];
                 }
             }
+        }
+        if(cart[productId] == null){
+            document.getElementById("cart-content").innerHTML = '';
+            document.getElementById("cart-content").innerText = '';
         }
         const totalElement = cartWindow.querySelector('p');
         if (totalElement) {
@@ -122,12 +146,6 @@ async function updateCartData() {
         }
         sessionStorage.setItem('cart', JSON.stringify(cart));
     }
-}
-
-
-function closeCart() {
-    const cartWindow = document.getElementById('cart-window');
-    document.body.removeChild(cartWindow);
 }
 
 function addToCart(productId) {
@@ -152,12 +170,12 @@ function removeFromCart(productId) {
         cart = JSON.parse(cartData);
     }
     if (cart[productId]) {
-        cart[productId]--;
-        if (cart[productId] === 0) {
+        if (cart[productId] > 1) {
+            cart[productId]--;
+        } else {
             delete cart[productId];
         }
     }
     sessionStorage.setItem('cart', JSON.stringify(cart));
     updateCartData();
 }
-

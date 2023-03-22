@@ -22,7 +22,7 @@ window.onload = function () {
                                       <h6>${item.description}</h6>
                                       <h6>${item.price}</h6>                                 
                                     </div>         
-                                    <div><button onclick="addItemToCart(${item.idProducts})" class="add-to-cart">Dodaj do koszyka</button></div>                          
+                                    <div><button onclick="addItemToCart(${item.idProducts})" class="add-to-cart" id="addToCart">Dodaj do koszyka</button></div>                          
                                   </div>                               
                                   <div class="nav-arrows" style="position: absolute; top: 45%; width: 100%; display: none;">
                                     <div style="float: left; margin-left: 20px;">
@@ -105,4 +105,5 @@ function addItemToCart(productId) {
             }
         })
         .catch(error => console.error(error));
+    updateCartData();
 }

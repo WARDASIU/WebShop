@@ -50,19 +50,4 @@ public class CartService {
             cartRepository.save(cart);
         }
     }
-
-//    public void addItem(CartItem cartItem) {
-//        boolean itemExists = false;
-//        for (CartItem item : cartItems) {
-//            if (item.getProduct().equals(cartItem.getProduct())) {
-//                item.setQuantity(item.getQuantity() + 1);
-//                itemExists = true;
-//                break;
-//            }
-//        }
-//        if (!itemExists) {
-//            cartItem.setCart(this.getIdCart());
-//            cartItems.add(cartItem);
-//        }
-//    }
 }
