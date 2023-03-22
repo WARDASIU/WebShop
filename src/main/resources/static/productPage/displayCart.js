@@ -4,6 +4,10 @@ async function getProductById(productId) {
     return product;
 }
 
+function buyProductsInCart() {
+    window.location.href = "/prepareOrder";
+}
+
 async function displayCart() {
     const modalBackground = document.createElement('div');
     modalBackground.classList.add('modal-background');
@@ -71,30 +75,29 @@ async function displayCart() {
 
             const addButton = document.createElement('button');
             addButton.innerText = '+';
-            addButton.addEventListener('click', () => addToCart(productId));
+            addButton.addEventListener('click', () => addItemToCart(productId));
 
             const removeButton = document.createElement('button');
             removeButton.innerText = '-';
-            removeButton.addEventListener('click', () => removeFromCart(productId));
-
-            const buyButton = document.createElement('button');
-            buyButton.innerText = 'Złóż zamówienie';
-            buyButton.className = 'buy-products';
-            buyButton.addEventListener('click', () => buyProductsInCart());
+            removeButton.addEventListener('click', () => removeItemFromCart(productId));
 
             productElement.appendChild(addButton);
             productElement.appendChild(removeButton);
 
             cartContent.appendChild(productElement);
-            cartContent.appendChild(buyButton);
         }
     }
+    const buyButton = document.createElement('button');
+    buyButton.innerText = 'Złóż zamówienie';
+    buyButton.className = 'buy-products';
+    buyButton.addEventListener('click', () => buyProductsInCart());
 
     const totalElement = document.createElement('p');
     totalElement.innerText = `Całość zamówienia: ${totalPrice.toFixed(2)} zł`;
     cartContent.appendChild(totalElement);
-    newCartWindow.appendChild(cartContent);
+    cartContent.appendChild(buyButton);
 
+    newCartWindow.appendChild(cartContent);
     document.body.appendChild(newCartWindow);
 }
 
@@ -107,6 +110,9 @@ function closeCart() {
 }
 
 async function updateCartData() {
+    const response = await fetch('/checkLogin');
+    const isLoggedIn = await response.json();
+
     const cartWindow = document.getElementById('cart-window');
     if (cartWindow) {
         const cartData = sessionStorage.getItem('cart');
@@ -136,31 +142,12 @@ async function updateCartData() {
                 }
             }
         }
-        if(cart[productId] == null){
-            document.getElementById("cart-content").innerHTML = '';
-            document.getElementById("cart-content").innerText = '';
-        }
         const totalElement = cartWindow.querySelector('p');
         if (totalElement) {
             totalElement.innerText = `Całość zamówienia: ${totalPrice.toFixed(2)} zł`;
         }
         sessionStorage.setItem('cart', JSON.stringify(cart));
     }
-}
-
-function addToCart(productId) {
-    let cart = {};
-    const cartData = sessionStorage.getItem('cart');
-    if (cartData) {
-        cart = JSON.parse(cartData);
-    }
-    if (cart[productId]) {
-        cart[productId]++;
-    } else {
-        cart[productId] = 1;
-    }
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-    updateCartData();
 }
 
 function removeFromCart(productId) {
@@ -178,4 +165,75 @@ function removeFromCart(productId) {
     }
     sessionStorage.setItem('cart', JSON.stringify(cart));
     updateCartData();
+}
+
+async function removeItemFromCart(productId) {
+    const response = await fetch('/checkLogin');
+    const isLoggedIn = await response.json();
+
+    if (isLoggedIn) {
+        fetch(`/cart/removeItem`, {
+            method: 'POST',
+            body: JSON.stringify({ productId }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                console.log('Product removed from cart!');
+                if (!document.getElementById('cart-window').hidden){
+                    updateCartData();
+                }
+            } else {
+                console.log('Error removing product from cart');
+            }
+        })
+            .catch(error => console.error(error));
+    } else {
+        const cartData = sessionStorage.getItem('cart');
+        let cart = {};
+        if (cartData) {
+            cart = JSON.parse(cartData);
+        }
+        if (cart[productId]) {
+            cart[productId] -= 1;
+            if (cart[productId] <= 0) {
+                delete cart[productId];
+            }
+        }
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        console.log('Product removed from cart (session storage)!');
+        if (!document.getElementById('cart-window').hidden){
+            updateCartData();
+        }
+    }
+}
+
+async function addItemToCart(productId) {
+    fetch('/cart/addItem', {
+        method: 'POST',
+        body: JSON.stringify({ productId }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+            if (response.ok) {
+                const cartData = sessionStorage.getItem('cart');
+                let cart = {};
+                if (cartData) {
+                    cart = JSON.parse(cartData);
+                }
+                if (!cart[productId]) {
+                    cart[productId] = 0;
+                }
+                cart[productId] += 1;
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                console.log('Product added to cart!');
+                if (!document.getElementById('cart-window').hidden){
+                    updateCartData();
+                }
+            } else {
+                console.log('Error adding product to cart');
+            }
+        }).catch(error => console.error(error));
 }

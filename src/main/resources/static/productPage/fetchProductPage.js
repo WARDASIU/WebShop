@@ -75,35 +75,3 @@ window.onload = function () {
             })
         });
 }
-
-function addItemToCart(productId) {
-    fetch('/cart/addItem', {
-        method: 'POST',
-        body: JSON.stringify({ productId }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (response.ok) {
-                const cartData = sessionStorage.getItem('cart');
-                let cart = {};
-                if (cartData) {
-                    cart = JSON.parse(cartData);
-                }
-                if (!cart[productId]) {
-                    cart[productId] = 0;
-                }
-                cart[productId] += 1;
-                sessionStorage.setItem('cart', JSON.stringify(cart));
-                console.log('Product added to cart!');
-                if (!document.getElementById('cart-window').hidden){
-                    updateCartData();
-                }
-            } else {
-                console.log('Error adding product to cart');
-            }
-        })
-        .catch(error => console.error(error));
-    updateCartData();
-}

@@ -89,4 +89,9 @@ public class UserController {
 
         return ResponseEntity.ok(responseBody);
     }
+
+    @GetMapping("/checkLogin")
+    public boolean isLoggedIn(Authentication authentication){
+        return authentication != null;
+    }
 }

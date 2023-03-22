@@ -42,6 +42,7 @@
             <li><a class="nav-link" href="/services">Usługi</a></li>
             <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
             <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
+            <li th:if="${isAdmin}"><a class="nav-link" href="/admin">Zarządzanie</a></li>
             <li th:unless="${isLoggedIn}">
                 <a class="nav-link" href="/login">Zaloguj</a>
             </li>
