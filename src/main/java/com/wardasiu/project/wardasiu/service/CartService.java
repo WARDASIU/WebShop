@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -41,21 +44,40 @@ public class CartService {
         } else {
             Cart cart = new Cart();
             CartItem cartItem = new CartItem();
+            cart.setUser(user.getIdUser());
+            cartRepository.save(cart);
 
             cartItem.setCart(cart.getIdCart());
             cartItem.setProduct(productId);
             cartItem.setQuantity(1);
-
             cartItemRepository.save(cartItem);
-            cart.setUser(user.getIdUser());
+
             cart.setIdCartItem(cartItem.getId_cart_item());
             cartRepository.save(cart);
+            cartItemRepository.save(cartItem);
         }
     }
 
-    public Optional<Cart> findByUser(final User user) {
+    public Optional<Cart> findCartByUser(final User user) {
         log.info(cartRepository.findByUser(user.getIdUser()).get().toString());
         return cartRepository.findByUser(user.getIdUser());
+    }
+
+    public List<CartItem> findCartItemsByUserCart(User user) {
+        return cartItemRepository.findAllByCart(cartRepository.findByUser(user.getIdUser()).get().getIdCart());
+    }
+
+    public Map<String, Integer> getCartItems(User user){
+        List<CartItem> cartItems = cartItemRepository.findAllByCart(cartRepository.findByUser(user.getIdUser()).get().getIdCart());
+        Map<String, Integer> cartItemsMap = new HashMap<>();
+
+        for (CartItem cartItem : cartItems) {
+            String product = String.valueOf(cartItem.getProduct());
+            Integer quantity = cartItem.getQuantity();
+            cartItemsMap.put(product, quantity);
+        }
+
+        return cartItemsMap;
     }
 
     public void removeItem(User user, Long productId) {

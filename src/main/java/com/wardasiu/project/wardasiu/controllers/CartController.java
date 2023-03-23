@@ -2,6 +2,7 @@ package com.wardasiu.project.wardasiu.controllers;
 
 
 import com.wardasiu.project.wardasiu.entities.Cart;
+import com.wardasiu.project.wardasiu.entities.CartItem;
 import com.wardasiu.project.wardasiu.entities.User;
 import com.wardasiu.project.wardasiu.security.UserService;
 import com.wardasiu.project.wardasiu.service.CartService;
@@ -61,6 +62,26 @@ public class CartController {
             user = userService.findUserByUsername(authentication.getName());
         } else return Optional.empty();
 
-        return cartService.findByUser(user);
+        return cartService.findCartByUser(user);
+    }
+
+    @GetMapping("/getItemsFromUserCart")
+    public List<CartItem> getItemsFromUserCart(Authentication authentication) {
+        User user;
+        if (authentication != null) {
+            user = userService.findUserByUsername(authentication.getName());
+        } else return Collections.emptyList();
+
+        return cartService.findCartItemsByUserCart(user);
+    }
+
+    @GetMapping("/getItemsFromUserCartSortedData")
+    public Map<String, Integer> getItemsFromUserCartSortedData(Authentication authentication) {
+        User user;
+        if (authentication != null) {
+            user = userService.findUserByUsername(authentication.getName());
+        } else return null;
+
+        return cartService.getCartItems(user);
     }
 }

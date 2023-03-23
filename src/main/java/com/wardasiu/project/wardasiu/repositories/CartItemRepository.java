@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     Optional<CartItem> findByCartAndProduct(Long cartId, Long productId);
+    List<CartItem> findAllByCart(final Long cart);
 
     @Override
     <S extends CartItem> S save(S entity);

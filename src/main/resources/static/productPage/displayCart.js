@@ -13,11 +13,7 @@ async function displayCart() {
     modalBackground.classList.add('modal-background');
     document.body.appendChild(modalBackground);
 
-    const cartData = sessionStorage.getItem('cart');
-    let cart = {};
-    if (cartData) {
-        cart = JSON.parse(cartData);
-    }
+    let cart = await getCartItemsDepend();
 
     const cartWindow = document.getElementById('cart-window');
     if (cartWindow) {
@@ -110,16 +106,10 @@ function closeCart() {
 }
 
 async function updateCartData() {
-    const response = await fetch('/checkLogin');
-    const isLoggedIn = await response.json();
-
     const cartWindow = document.getElementById('cart-window');
     if (cartWindow) {
-        const cartData = sessionStorage.getItem('cart');
-        let cart = {};
-        if (cartData) {
-            cart = JSON.parse(cartData);
-        }
+        let cart = await getCartItemsDepend();
+        deleteZeroQuantityProducts();
         let totalPrice = 0;
         for (const productId in cart) {
             const quantity = cart[productId];
@@ -146,25 +136,27 @@ async function updateCartData() {
         if (totalElement) {
             totalElement.innerText = `Całość zamówienia: ${totalPrice.toFixed(2)} zł`;
         }
-        sessionStorage.setItem('cart', JSON.stringify(cart));
     }
 }
 
-function removeFromCart(productId) {
-    let cart = {};
-    const cartData = sessionStorage.getItem('cart');
-    if (cartData) {
-        cart = JSON.parse(cartData);
-    }
-    if (cart[productId]) {
-        if (cart[productId] > 1) {
-            cart[productId]--;
-        } else {
-            delete cart[productId];
-        }
-    }
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-    updateCartData();
+async function deleteZeroQuantityProducts() {
+        const cartProducts = document.querySelectorAll('.product');
+        const sessionCart = await getCartItemsDepend();
+        const productsToDelete = [];
+
+        cartProducts.forEach((product) => {
+            const productId = product.id.split('-')[1];
+            if (!sessionCart[productId]) {
+                productsToDelete.push(productId);
+            }
+        });
+
+        productsToDelete.forEach((productId) => {
+            const product = document.getElementById('product-' + productId);
+            if (product) {
+                product.remove();
+            }
+        });
 }
 
 async function removeItemFromCart(productId) {
@@ -201,6 +193,7 @@ async function removeItemFromCart(productId) {
                 delete cart[productId];
             }
         }
+        console.log("cart[productId]: " + cart[productId])
         sessionStorage.setItem('cart', JSON.stringify(cart));
         console.log('Product removed from cart (session storage)!');
         if (!document.getElementById('cart-window').hidden){
@@ -236,4 +229,53 @@ async function addItemToCart(productId) {
                 console.log('Error adding product to cart');
             }
         }).catch(error => console.error(error));
+}
+
+
+
+
+
+async function fetchUserCart() {
+    return await fetch('/cart/getItemsFromUserCartSortedData')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user cart (${response.status} ${response.statusText})`);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error(`Failed to fetch user cart: ${error}`);
+            throw error;
+        });
+}
+
+async function isLoggedIn() {
+    return await fetch('/checkLogin')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to check login`);
+            }
+            return response.json();
+        })
+        .then(isLoggedIn => {
+            return isLoggedIn;
+        });
+}
+
+async function getCartItemsDepend(){
+    let cartData;
+    const loggedIn = await isLoggedIn();
+    if (loggedIn === true) {
+        cartData = await fetchUserCart();
+    } else {
+        cartData = sessionStorage.getItem('cart');
+    }
+
+    let cart = {};
+    if (cartData && !loggedIn) {
+        cart = JSON.parse(cartData);
+    }else if(loggedIn){
+        cart = cartData;
+    }
+
+    return cart;
 }

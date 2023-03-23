@@ -3,6 +3,7 @@ package com.wardasiu.project.wardasiu.controllers;
 import com.wardasiu.project.wardasiu.entities.Cart;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,8 +14,18 @@ import java.math.BigDecimal;
 @RequestMapping("/prepareOrder")
 public class OrderController {
     @GetMapping
-    public ModelAndView returnAdminPage() {
-        return new ModelAndView("prepareOrder");
+    public ModelAndView returnPrepareOrderPage(Authentication authentication) {
+        ModelAndView modelAndView = new ModelAndView("prepareOrder");
+        boolean isLoggedIn = authentication != null;
+        modelAndView.addObject("isLoggedIn", isLoggedIn);
+
+        if (isLoggedIn) {
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+            modelAndView.addObject("isAdmin", isAdmin);
+        }
+
+        return modelAndView;
     }
 
 //    @PostMapping("/checkout")
