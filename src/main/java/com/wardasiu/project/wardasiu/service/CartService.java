@@ -5,11 +5,16 @@ import com.wardasiu.project.wardasiu.entities.CartItem;
 import com.wardasiu.project.wardasiu.entities.User;
 import com.wardasiu.project.wardasiu.repositories.CartItemRepository;
 import com.wardasiu.project.wardasiu.repositories.CartRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class CartService {
     @Autowired
@@ -39,15 +44,62 @@ public class CartService {
         } else {
             Cart cart = new Cart();
             CartItem cartItem = new CartItem();
+            cart.setUser(user.getIdUser());
+            cartRepository.save(cart);
 
             cartItem.setCart(cart.getIdCart());
             cartItem.setProduct(productId);
             cartItem.setQuantity(1);
-
             cartItemRepository.save(cartItem);
-            cart.setUser(user.getIdUser());
+
             cart.setIdCartItem(cartItem.getId_cart_item());
             cartRepository.save(cart);
+            cartItemRepository.save(cartItem);
+        }
+    }
+
+    public Optional<Cart> findCartByUser(final User user) {
+        log.info(cartRepository.findByUser(user.getIdUser()).get().toString());
+        return cartRepository.findByUser(user.getIdUser());
+    }
+
+    public List<CartItem> findCartItemsByUserCart(User user) {
+        return cartItemRepository.findAllByCart(cartRepository.findByUser(user.getIdUser()).get().getIdCart());
+    }
+
+    public Map<String, Integer> getCartItems(User user){
+        List<CartItem> cartItems = cartItemRepository.findAllByCart(cartRepository.findByUser(user.getIdUser()).get().getIdCart());
+        Map<String, Integer> cartItemsMap = new HashMap<>();
+
+        for (CartItem cartItem : cartItems) {
+            String product = String.valueOf(cartItem.getProduct());
+            Integer quantity = cartItem.getQuantity();
+            cartItemsMap.put(product, quantity);
+        }
+
+        return cartItemsMap;
+    }
+
+    public void removeItem(User user, Long productId) {
+        Optional<Cart> cartOptional = cartRepository.findByUser(user.getIdUser());
+
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            Optional<CartItem> optionalCartItem = cartItemRepository.findByCartAndProduct(cart.getIdCart(), productId);
+
+            if (optionalCartItem.isPresent()) {
+                CartItem cartItem = optionalCartItem.get();
+                if (cartItem.getQuantity() > 1) {
+                    cartItem.setQuantity(cartItem.getQuantity() - 1);
+                    cartItemRepository.save(cartItem);
+                } else {
+                    cartItemRepository.delete(cartItem);
+                }
+            } else {
+                log.warn("Product not found in cart");
+            }
+        } else {
+            log.warn("Cart not found for user");
         }
     }
 }

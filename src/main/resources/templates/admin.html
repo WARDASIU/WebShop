@@ -38,7 +38,11 @@
             <li><a class="nav-link" href="/services">Usługi</a></li>
             <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
             <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
-            <li class="nav-item dropdown">
+            <li th:if="${isAdmin}"><a class="nav-link" href="/admin">Zarządzanie</a></li>
+            <li th:unless="${isLoggedIn}">
+                <a class="nav-link" href="/login">Zaloguj</a>
+            </li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Konto

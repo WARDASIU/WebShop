@@ -1,0 +1,52 @@
+body {
+    background: linear-gradient(to bottom right, #F9EACD, #E6D5B8);
+    background-size: 1000000px;
+}
+
+.cart-items{
+    margin-top: 100px;
+}
+
+.cart-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.cart-table th,
+.cart-table td {
+    border: 2px solid #653e01;
+    padding: 25px;
+    width: 100%;
+}
+
+.cart-table th {
+    background-color: #faefba;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cart-table td:nth-child(1) {
+    width: 120px;
+    padding: 15px;
+}
+
+.cart-table tfoot td {
+    font-weight: bold;
+}
+
+#total-price {
+    text-align: right;
+}
+
+.makeOrderButton {
+    background-color: #8a5401;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 25px 0;
+}

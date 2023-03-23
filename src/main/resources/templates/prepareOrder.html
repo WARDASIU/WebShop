@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Przygotuj zamówienie</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/main/home.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/order/order.css}">
     <link rel="stylesheet" type="text/css" href="../static/main/home.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/profile/profile.css}">
-    <link rel="stylesheet" type="text/css" href="../static/profile/profile.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -22,8 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://kit.fontawesome.com/ea7c74f2a3.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <title>EasyStep Edycja profilu</title>
 </head>
 <body>
 
@@ -58,45 +55,34 @@
     </div>
 </nav>
 
-<h1>Edycja profilu</h1>
-<form th:object="${user}" id="profile-form">
-    <div class="form-group">
-        <label for="name">Imię:</label>
-        <input type="text" th:field="*{name}" id="name" name="name">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="cart-display col-lg-8 text-center">
+            <div id="cart-items" style="margin-top: 100px;">
+                <table class="cart-table">
+                    <thead>
+                    <tr>
+                    </tr>
+                    </thead>
+                    <tbody id="cart-items-body">
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">Cena całkowita zamówienia:</td>
+                        <td id="total-price"></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <form class="form-signin" th:action="@{/prepareOrder/checkout}" method="post">
+                <button type="submit" class="makeOrderButton">Złóż zamówienie</button>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label for="surname">Nazwisko:</label>
-        <input type="text" th:field="*{surname}" id="surname" name="surname">
-    </div>
-
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" th:field="*{email}" id="email" name="email" required>
-    </div>
-
-    <div class="form-group">
-        <label for="phone">Numer telefonu:</label>
-        <input type="number" th:field="*{phone}" id="phone" name="phone" maxlength="9">
-    </div>
-
-    <div class="form-group">
-        <label for="address">Adres:</label>
-        <input type="text" th:field="*{address}" id="address" name="address">
-    </div>
-
-    <div class="form-group">
-        <label for="postcode">Kod pocztowy:</label>
-        <input type="text" th:field="*{postCode}" id="postcode" name="post_code">
-    </div>
-
-    <div class="form-group">
-        <label for="newsletter">Dodaj mnie do newslettera</label>
-        <input type="checkbox" th:field="*{newsletter}" id="newsletter" name="newsletter">
-    </div>
-</form>
-
-
-<script type="text/javascript" th:src="@{/profile/updateUserData.js}"></script>
+<script type="text/javascript" th:src="@{/productPage/displayCart.js}"></script>
+<script type="text/javascript" th:src="@{/order/cartItemsDisplay.js}"></script>
 </body>
 </html>

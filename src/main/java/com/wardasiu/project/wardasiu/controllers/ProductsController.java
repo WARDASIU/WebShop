@@ -6,6 +6,7 @@ import com.wardasiu.project.wardasiu.repositories.ProductsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,18 +28,28 @@ public class ProductsController {
         this.productsRepository = productsRepository;
     }
 
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    public ModelAndView getProductsPage(Authentication authentication) {
+        ModelAndView modelAndView = new ModelAndView("products");
+        boolean isLoggedIn = authentication != null;
+        modelAndView.addObject("isLoggedIn", isLoggedIn);
+
+        if (isLoggedIn) {
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+            modelAndView.addObject("isAdmin", isAdmin);
+        }
+
+        return modelAndView;
+    }
+
     @GetMapping("/product/{productId}")
     public ModelAndView getDetailedProductView(@PathVariable Long productId) {
-        // Get product data from database using the productId parameter
         Optional<Product> product = productsRepository.findProductByIdProducts(productId);
-
-        // Create a new ModelAndView object with the "product" view name
         ModelAndView modelAndView = new ModelAndView("detailed-product-view");
 
-        // Add the product data to the ModelAndView object as a model attribute
         modelAndView.addObject("detailed-product-view", product);
 
-        // Return the ModelAndView object
         return modelAndView;
     }
 
@@ -58,11 +69,6 @@ public class ProductsController {
         String filePath = Paths.get(path, filename + ".png").toString();
 
         return Files.readAllBytes(Paths.get(filePath));
-    }
-
-    @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public ModelAndView getProductsPage() {
-        return new ModelAndView("products");
     }
 
     @RequestMapping(value = "/api/products", method = RequestMethod.GET)
