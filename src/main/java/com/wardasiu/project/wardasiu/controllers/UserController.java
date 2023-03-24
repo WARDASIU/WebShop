@@ -11,12 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -28,20 +24,22 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
+    @ResponseBody
     @PostMapping("/register")
-    public ModelAndView registerUser(@RequestParam String usernameToRegister,
-                                     @RequestParam String passwordToRegister,
-                                     @RequestParam String emailToRegister) {
-        ModelAndView modelAndView = new ModelAndView("login");
+    public Map<String, Object> registerUser(@RequestParam String usernameToRegister,
+                                            @RequestParam String passwordToRegister,
+                                            @RequestParam String emailToRegister) {
+        Map<String, Object> response = new HashMap<>();
         if (userService.isLoginAvailable(usernameToRegister)) {
             if (userService.isEmailAvailable(emailToRegister)) {
                 userService.saveUser(new User(usernameToRegister, passwordToRegister, "NORMAL", emailToRegister));
-            } else modelAndView.addObject("result", "Nazwa uzytkownika juz jest zajeta!");
+            } else {
+                response.put("errors", Collections.singletonMap("emailTaken", true));
+            }
         } else {
-            modelAndView.addObject("result", "Email juz jest zajety!");
+            response.put("errors", Collections.singletonMap("loginTaken", true));
         }
-
-        return modelAndView;
+        return response;
     }
 
     @GetMapping("/profile")

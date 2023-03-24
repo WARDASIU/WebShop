@@ -67,7 +67,6 @@
 
 <div class="container text-center col-lg-3" style="margin-top: 75px;">
     <form class="form-signin" th:action="@{/login}" method="post" id="login-form">
-        <h3 th:if="${loginError}" class="error" style="margin: 15px">Wrong user or password</h3>
         <h1 class="h3 mb-3 font-weight-normal">Zaloguj sie</h1>
         <label for="username" class="sr-only">Nazwa użytkownika</label>
         <input type="text" name="username" id="username" class="form-control" placeholder="Login" required autofocus>
@@ -78,6 +77,9 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
         <p class="text-muted">&copy; EasyStep</p>
     </form>
+    <div th:if="${param.error}">
+        <p class="text-danger">Niepoprawny login lub hasło!</p>
+    </div>
 
     <form class="form-signin" th:action="@{/register}" method="post" id="register-form" style="display: none">
         <h1 class="h3 mb-3 font-weight-normal">Zarejestruj się</h1>
@@ -85,15 +87,13 @@
         <input type="text" name="usernameToRegister" id="usernameToRegister" class="form-control" placeholder="Login" required autofocus>
 
         <label for="passwordToRegister" class="sr-only">Hasło</label>
-        <input type="password" name="passwordToRegister" id="passwordToRegister" class="form-control" placeholder="Hasło" required>
+        <input type="password" name="passwordToRegister" id="passwordToRegister" class="form-control" placeholder="Hasło" min="5" required>
 
         <label for="emailToRegister" class="sr-only">Email</label>
         <input type="email" name="emailToRegister" id="emailToRegister" class="form-control" placeholder="Email" required>
 
-        <label for="newsletter">
-            <input type="checkbox" name="newsletter" id="newsletter" value="true">
-            Zapisz mnie do newslettera!
-        </label>
+        <h3 class="error email-taken-error" style="display: none; margin: 15px">Email już jest zajęty!</h3>
+        <h3 class="error login-taken-error" style="display: none; margin: 15px">Nazwa użytkownika już jest zajęta!</h3>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Stworz konto</button>
         <p class="text-muted">&copy; EasyStep</p>

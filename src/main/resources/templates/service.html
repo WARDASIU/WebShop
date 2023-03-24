@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@chenfengyuan/datepicker@2.2.3/dist/datepicker.min.css">
     <script src="https://unpkg.com/@chenfengyuan/datepicker@2.2.3/dist/datepicker.min.js"></script>
     <script type="text/javascript" th:src="@{/service/serviceOrder.js}"></script>
+    <script type="text/javascript" th:src="@{/service/getChoosenValues.js}"></script>
     <script type="text/javascript" src="../static/service/serviceOrder.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
@@ -60,51 +61,68 @@
     </div>
 </nav>
 
-<form method="post" action="" th:unless="${isLoggedIn}">
-    <div class="form-group">
-        <label for="email">Adres e-mail:</label>
-        <input type="email" class="form-control" id="email" name="email" required>
+<div class="container" style="margin-top: 100px;">
+    <form method="post" th:action="@{/serviceOrder}" th:unless="${isLoggedIn}" id="service-form">
+        <div class="form-group">
+            <label for="email">Adres e-mail:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Kategoria usługi:</label>
+            <select class="form-control" id="category" onchange="showAdditionalFields()" required>
+                <option value="">Wybierz kategorię</option>
+                <option value="schody">Schody</option>
+                <option value="altanka">Altanka</option>
+                <option value="elementy_wewnatrz">Elementy wewnętrzne</option>
+            </select>
+        </div>
+
+        <div id="additionalFields"></div>
+
+        <div class="form-group">
+            <label for="date">Wybierz datę:</label>
+            <input type="text" id="date" name="wolne_terminy_konsultacji_klienta" class="form-control" placeholder="dd/mm/yyyy" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
+    </form>
+
+
+
+    <form method="post" th:action="@{/serviceOrder}" th:if="${isLoggedIn}" id="service-form">
+        <div class="form-group">
+            <label for="category">Kategoria usługi:</label>
+            <select class="form-control" id="category" onchange="showAdditionalFields()" required>
+                <option value="">Wybierz kategorię</option>
+                <option value="schody">Schody</option>
+                <option value="altanka">Altanka</option>
+                <option value="elementy_wewnatrz">Elementy wewnętrzne</option>
+            </select>
+        </div>
+
+        <div id="additionalFields"></div>
+
+        <div class="form-group">
+            <label for="date">Podaj swoje wolne terminy:</label>
+            <input type="text" id="date" name="wolne_terminy_konsultacji_klienta" class="form-control" placeholder="dd/mm/yyyy" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
+    </form>
+
+
+
+    <div class="spinner-border text-primary mt-3 d-none" role="status"
+         style="margin: 0 auto; text-align: center;">
+        <span class="sr-only">Loading...</span>
     </div>
-    <div class="form-group">
-        <label for="category">Kategoria usługi:</label>
-        <select class="form-control" id="category" onchange="showAdditionalFields()" required>
-            <option value="">Wybierz kategorię</option>
-            <option value="schody">Schody</option>
-            <option value="altanka">Altanka</option>
-            <option value="elementy_wewnatrz">Elementy wewnętrzne</option>
-        </select>
+    <div class="alert alert-dismissible fade show d-none" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong></strong>
     </div>
 
-    <div id="additionalFields"></div>
 
-    <div class="form-group">
-        <label for="date">Wybierz datę:</label>
-        <input type="text" id="date" name="date" class="form-control" placeholder="dd/mm/yyyy">
-    </div>
-    <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
-</form>
-
-
-
-<form method="post" action="" th:if="${isLoggedIn}">
-    <div class="form-group">
-        <label for="category">Kategoria usługi:</label>
-        <select class="form-control" id="category" onchange="showAdditionalFields()" required>
-            <option value="">Wybierz kategorię</option>
-            <option value="schody">Schody</option>
-            <option value="altanka">Altanka</option>
-            <option value="elementy_wewnatrz">Elementy wewnętrzne</option>
-        </select>
-    </div>
-
-    <div id="additionalFields"></div>
-
-    <div class="form-group">
-        <label for="date">Podaj swoje wolne terminy:</label>
-        <input type="text" id="date" name="date" class="form-control" placeholder="dd/mm/yyyy">
-    </div>
-    <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
-</form>
+</div>
 
 <script>
     $(function() {

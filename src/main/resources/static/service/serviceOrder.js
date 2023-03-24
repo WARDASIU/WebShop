@@ -1,20 +1,20 @@
 const woodTypeSelect = document.createElement('select');
 woodTypeSelect.classList.add('form-control');
-woodTypeSelect.name = 'wood-type';
+woodTypeSelect.name = 'rodzaj-drzewa';
 woodTypeSelect.required = true;
 
 const oakOption = document.createElement('option');
-oakOption.value = 'oak';
+oakOption.value = 'Dąb';
 oakOption.text = 'Dąb';
 woodTypeSelect.appendChild(oakOption);
 
 const ashOption = document.createElement('option');
-ashOption.value = 'ash';
+ashOption.value = 'jesion';
 ashOption.text = 'Jesion';
 woodTypeSelect.appendChild(ashOption);
 
 const beechOption = document.createElement('option');
-beechOption.value = 'beech';
+beechOption.value = 'buk';
 beechOption.text = 'Buk';
 woodTypeSelect.appendChild(beechOption);
 
@@ -84,7 +84,7 @@ function showAdditionalFields() {
                 const stairsFloatGround = document.createElement("select");
                 stairsFloatGround.id = "stepsTypeFloatGround";
                 stairsFloatGround.classList.add("form-control");
-                stairsFloatGround.name = "typ_schodow_dol_gora";
+                stairsFloatGround.name = "typ_schodow";
                 stairsFloatGround.required = true;
 
                 const stairsFloatOption = document.createElement("option");
@@ -110,26 +110,27 @@ function showAdditionalFields() {
 
                 const woodKindLabelSteps = document.createElement("label");
                 woodKindLabelSteps.innerText = "Rodzaj drzewa - stopnie:";
+
                 const woodKindLabelConstruction = document.createElement("label");
                 woodKindLabelConstruction.innerText = "Rodzaj drzewa - konstrukcja:";
 
                 const stairsWoodTypeSelect = document.createElement('select');
                 stairsWoodTypeSelect.classList.add('form-control');
-                stairsWoodTypeSelect.name = 'wood-type';
+                stairsWoodTypeSelect.name = 'rodzaj_drzewa';
                 stairsWoodTypeSelect.required = true;
 
                 const oakOption = document.createElement('option');
-                oakOption.value = 'oak';
+                oakOption.value = 'dąb';
                 oakOption.text = 'Dąb';
                 stairsWoodTypeSelect.appendChild(oakOption);
 
                 const ashOption = document.createElement('option');
-                ashOption.value = 'ash';
+                ashOption.value = 'jesion';
                 ashOption.text = 'Jesion';
                 stairsWoodTypeSelect.appendChild(ashOption);
 
                 const beechOption = document.createElement('option');
-                beechOption.value = 'beech';
+                beechOption.value = 'buk';
                 beechOption.text = 'Buk';
                 stairsWoodTypeSelect.appendChild(beechOption);
 
@@ -165,13 +166,13 @@ function showAdditionalFields() {
                 metalTypeSelect.required = true;
 
                 const steelOption = document.createElement("option");
-                steelOption.value = "stal";
-                steelOption.text = "Stal";
+                steelOption.value = "stal_ocynkowana";
+                steelOption.text = "Stal ocynkowana";
                 metalTypeSelect.appendChild(steelOption);
 
                 const aluminumOption = document.createElement("option");
-                aluminumOption.value = "aluminium";
-                aluminumOption.text = "Aluminium";
+                aluminumOption.value = "stal_nierdzewna";
+                aluminumOption.text = "Stal nierdzewna";
                 metalTypeSelect.appendChild(aluminumOption);
 
                 const degreeInput = document.createElement("input");
@@ -223,7 +224,7 @@ function showAdditionalFields() {
         const distanceBetweenAnglesAltanka = document.createElement("input");
         distanceBetweenAnglesAltanka.classList.add("form-control");
         distanceBetweenAnglesAltanka.type = "number";
-        distanceBetweenAnglesAltanka.name = "odleglosc_boku";
+        distanceBetweenAnglesAltanka.name = "odleglosc_jednego_boku";
         distanceBetweenAnglesAltanka.placeholder = "Odległość jednego boku";
 
         const woodenConstructionLabel = document.createElement("label");
@@ -258,13 +259,8 @@ function showAdditionalFields() {
         optionPodloga.text = "Podłoga";
         elementType.appendChild(optionPodloga);
 
-        const optionBlat = document.createElement("option");
-        optionBlat.value = "blat";
-        optionBlat.text = "Blat";
-        elementType.appendChild(optionBlat);
-
         const optionOptoczenieKominka = document.createElement("option");
-        optionOptoczenieKominka.value = "optoczenie_kominka";
+        optionOptoczenieKominka.value = "otoczenie_kominka";
         optionOptoczenieKominka.text = "Otoczenie kominka";
         elementType.appendChild(optionOptoczenieKominka);
 

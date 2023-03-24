@@ -24,6 +24,7 @@ public class SecurityConfig {
                 )
                 .formLogin()
                 .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -37,5 +38,4 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
