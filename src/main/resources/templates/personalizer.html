@@ -64,34 +64,37 @@
     </div>
 </nav>
 
-
-<div class="personalizer-container my-4" style="margin-top: 70px !important;">
+<div class="personalizer-container my-4" style="margin-top: 100px !important;">
     <h1 class="title">Konfigurator stołów z żywicą</h1>
-    <form id="test">
+    <form id="personalizer-form">
+        <div class="form-group" th:unless="${isLoggedIn}">
+            <label for="email">Adres e-mail:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
         <div class="form-group">
             <label for="tableType">Rodzaj stołu:</label>
-            <select class="form-control" id="tableType" name="tableType" th:default="office">
-                <option value="office">Biurowy</option>
-                <option value="dining">Jadalny</option>
-                <option value="coffee">Kawowy</option>
-                <option value="conference">Konferencyjny</option>
+            <select class="form-control" id="tableType" name="rodzaj_stołu" th:default="kawowy">
+                <option value="biurowy">Biurowy</option>
+                <option value="jadalny">Jadalny</option>
+                <option value="kawowy">Kawowy</option>
+                <option value="konferencyjny">Konferencyjny</option>
             </select>
         </div>
         <div class="form-group">
             <label for="width">Szerokość:</label>
-            <input type="text" id="width" value="50">
+            <input type="text" id="width" value="50" name="szerokosc">
             <input type="range" id="width-slider" min="0" max="100" value="50" oninput="updateDimensions()">
         </div>
 
         <div class="form-group">
             <label for="height">Wysokość:</label>
-            <input type="text" id="height" value="50">
+            <input type="text" id="height" value="50" name="wysokosc">
             <input type="range" id="height-slider" min="0" max="100" value="50" oninput="updateDimensions()">
         </div>
 
         <div class="form-group">
             <label for="depth">Długość:</label>
-            <input type="text" id="depth" value="50">
+            <input type="text" id="depth" value="50" name="dlugosc">
             <input type="range" id="depth-slider" min="0" max="100" value="50" oninput="updateDimensions()">
         </div>
 
@@ -99,43 +102,43 @@
         <div class="form-group">
             <label for="color">Kolor stołu:</label><br>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#F2EDEB">
+                <input type="radio" name="kolor_stołu" value="#F2EDEB">
                 <span><p>F2EDEB</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#C8BEB7">
+                <input type="radio" name="kolor_stołu" value="#C8BEB7">
                 <span><p>C8BEB7</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#C4C1BA">
+                <input type="radio" name="kolor_stołu" value="#C4C1BA">
                 <span><p>C4C1BA</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#424242">
+                <input type="radio" name="kolor_stołu" value="#424242">
                 <span><p>424242</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#6B5849">
+                <input type="radio" name="kolor_stołu" value="#6B5849">
                 <span><p>6B5849</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#9D7E63">
+                <input type="radio" name="kolor_stołu" value="#9D7E63">
                 <span><p>9D7E63</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#FDF1E7">
+                <input type="radio" name="kolor_stołu" value="#FDF1E7">
                 <span><p>FDF1E7</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#ECE2D0">
+                <input type="radio" name="kolor_stołu" value="#ECE2D0">
                 <span><p>ECE2D0</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#8B6E55">
+                <input type="radio" name="kolor_stołu" value="#8B6E55">
                 <span><p>8B6E55</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="tableColor" value="#634E3C">
+                <input type="radio" name="kolor_stołu" value="#634E3C">
                 <span><p>634E3C</p></span>
             </label>
         </div>
@@ -144,139 +147,120 @@
         <div class="form-group">
             <label for="color">Kolor żywicy:</label><br>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#5bc0de">
+                <input type="radio" name="kolor_żywicy" value="#5bc0de">
                 <span><p>5bc0de</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#99d9ea">
+                <input type="radio" name="kolor_żywicy" value="#99d9ea">
                 <span><p>99d9ea</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#ccebff">
+                <input type="radio" name="kolor_żywicy" value="#ccebff">
                 <span><p>ccebff</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#28a745">
+                <input type="radio" name="kolor_żywicy" value="#28a745">
                 <span><p>28a745</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#70c057">
+                <input type="radio" name="kolor_żywicy" value="#70c057">
                 <span><p>70c057</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#495057">
+                <input type="radio" name="kolor_żywicy" value="#495057">
                 <span><p>495057</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#343a40">
+                <input type="radio" name="kolor_żywicy" value="#343a40">
                 <span><p>343a40</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#6c757d">
+                <input type="radio" name="kolor_żywicy" value="#6c757d">
                 <span><p>6c757d</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#e9ecef">
+                <input type="radio" name="kolor_żywicy" value="#e9ecef">
                 <span><p>e9ecef</p></span>
             </label>
             <label class="form-check-label text-center">
-                <input type="radio" name="resinColor" value="#f8f9fa">
+                <input type="radio" name="kolor_żywicy" value="#f8f9fa">
                 <span><p>f8f9fa</p></span>
             </label>
-
         </div>
-
-
-
-        <!--        <div class="form-group">-->
-<!--            <label for="resinColorInput">Kolor żywicy:</label>-->
-<!--            <input type="color" class="form-control" id="resinColorInput" value="#000000">-->
-<!--        </div>-->
-
-
 
         <div class="form-group">
             <label for="legType">Typ nóg stołu:</label>
-            <select class="form-control" id="legType" name="legType" th:default="wood">
-                <option value="wood">Drewno</option>
+            <select class="form-control" id="legType" name="rodzaj_nóg" th:default="drewno">
+                <option value="drewno">Drewno</option>
                 <option value="metal">Metal</option>
             </select>
         </div>
 
         <div class="form-group woodType" id="woodType">
             <label for="woodType">Rodzaj drewna dla nóg stołu:</label>
-            <select class="form-control">
-                <option value="oak">Dąb</option>
-                <option value="ash">Jesion</option>
-                <option value="beech">Buk</option>
-                <option value="walnut">Orzech</option>
-                <option value="cherry">Czereśnia</option>
-                <option value="mahogany">Mahoń</option>
+            <select class="form-control" name="rodzaj_drzewa_nogi">
+                <option value="Dąb">Dąb</option>
+                <option value="Jesion">Jesion</option>
+                <option value="Buk">Buk</option>
+                <option value="Orzech">Orzech</option>
+                <option value="Czereśnia">Czereśnia</option>
+                <option value="Mahoń">Mahoń</option>
             </select>
         </div>
         <div class="form-group" id="metalLegs" style="display: none;">
             <label for="metalType">Rodzaj metalu:</label>
-            <select class="form-control" id="metalType">
-                <option value="steel">Stal</option>
-                <option value="aluminum">Aluminium</option>
-                <option value="copper">Miedź</option>
-                <option value="brass">Mosiądz</option>
+            <select class="form-control" id="metalType" name="rodzaj_metalu_dla_nóg">
+                <option value="Stal">Stal</option>
+                <option value="Aluminium">Aluminium</option>
+                <option value="Miedź">Miedź</option>
+                <option value="Mosiądz">Mosiądz</option>
             </select>
         </div>
-
-
 
         <div class="form-group">
             <label for="tableShape">Kształt stołu:</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="tableShape" id="rectangleInput" value="rectangle" checked>
+                <input class="form-check-input" type="radio" name="kształt_stołu" id="rectangleInput" value="prostokąt" checked>
                 <label class="form-check-label" for="rectangleInput" id="rectangleLabel">
                     Prostokąt
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="tableShape" id="roundInput" value="round">
+                <input class="form-check-input" type="radio" name="kształt_stołu" id="roundInput" value="okrągły">
                 <label class="form-check-label" for="roundInput" id="roundLabel">
                     Okrągły
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="tableShape" id="ovalInput" value="oval">
+                <input class="form-check-input" type="radio" name="kształt_stołu" id="ovalInput" value="owalny">
                 <label class="form-check-label" for="ovalInput" id="ovalLabel">
                     Owalny
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="tableShape" id="squareInput" value="square">
+                <input class="form-check-input" type="radio" name="kształt_stołu" id="squareInput" value="kwadrat">
                 <label class="form-check-label shape-label" for="squareInput" id="squareLabel">
                     Kwadrat
                 </label>
             </div>
         </div>
-
-
-
-        <div class="form-group">
-            <label for="deliveryMethod">Sposób dostawy:</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="deliveryMethod" id="pickup" value="pickup" checked>
-                <label class="form-check-label" for="pickup">
-                    Odbiór osobisty
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="deliveryMethod" id="courier" value="courier">
-                <label class="form-check-label" for="courier">
-                    Kurier
-                </label>
-            </div>
-        </div>
         <button type="submit" class="btn btn-primary">Wyślij zapytanie</button>
-        <button class="btn btn-primary" onclick="generateAIImage()">Stworz poglądowy obrazek</button>
     </form>
 
+    <button class="btn btn-primary" onclick="generateAIImage()">Stworz poglądowy obrazek</button>
+
+    <div class="spinner-border text-primary mt-3 d-none" role="status"
+         style="margin: 0 auto; text-align: center;">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="alert alert-dismissible fade show d-none" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong></strong>
+    </div>
+
     <div id="coffee-table-image-container">
-        <p id="waiting-message">Generowanie obrazu...</p>
         <p id="ready-message">Należy pamiętać, że obraz jest tylko poglądowy!</p>
     </div>
 
