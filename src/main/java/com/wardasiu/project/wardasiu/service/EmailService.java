@@ -15,4 +15,6 @@ public interface EmailService {
 	void sendHTMLEmailWithAttachments(String receiver, String subject, String htmlContent, File file, File... files);
 
     void sendHtmlNewsletter(List<String> receivers, String subject, String body);
+
+    void sendNewPasswordEmail(String receiver, String username, String newPassword);
 }

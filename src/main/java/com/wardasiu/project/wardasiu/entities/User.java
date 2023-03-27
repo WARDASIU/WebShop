@@ -44,10 +44,11 @@ public class User {
     @Column(name = "post_code")
     private String postCode;
 
-    public User(final String username, final String password, final String role, final String email) {
+    public User(final String username, final String password, final String role, final String email, boolean newsletter) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.email = email;
+        this.newsletter = newsletter;
     }
 }

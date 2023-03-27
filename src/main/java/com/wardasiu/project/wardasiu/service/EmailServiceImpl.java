@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -30,6 +31,13 @@ public class EmailServiceImpl implements EmailService {
         for (String receiver : receivers) {
             sendHTMLEmail(receiver, subject, body);
         }
+    }
+
+    @Override
+    public void sendNewPasswordEmail(final String receiver, String username, String newPassword) {
+        String body = "<h3>Dla użytkownika: " + username + "ustawiono nowe hasło: " + "<strong>" + newPassword + "</strong>" + "</h3>";
+
+        sendHTMLEmail(receiver, "Reset hasła dla konta EasyStep", body);
     }
 
     @Override

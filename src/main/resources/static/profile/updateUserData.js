@@ -50,8 +50,6 @@ profileForm.addEventListener('submit', (event) => {
 });
 
 async function updateUserProfile(updatedData) {
-    console.log(updatedData);
-
     const response = await fetch('/update-profile', {
         method: 'PUT',
         headers: {
@@ -63,16 +61,74 @@ async function updateUserProfile(updatedData) {
     if (!response.ok) {
         throw new Error('Failed to update user profile.');
     }
-    const data = await response.json();
-    if (data.success) {
-        // Reset all form fields to their original values
-        const formFields = document.querySelectorAll('#profile-form input, #profile-form select');
-        formFields.forEach(field => {
-            field.value = field.dataset.oldValue;
-        });
-        // Clear the updatedData object
+
+    const data = await response;
+    if (response.ok) {
         Object.keys(updatedData).forEach(key => delete updatedData[key]);
+
+        const messageBox = document.createElement('div');
+        messageBox.classList.add('message-box');
+        messageBox.textContent = 'Dane zmienione!';
+
+        document.body.appendChild(messageBox);
+        setTimeout(() => {
+            messageBox.remove();
+        }, 3000);
     } else {
         alert(data.message);
+    }
+}
+
+
+
+$(function() {
+    $('#change-password-form').submit(function(event) {
+        var newPassword = $('#new-password').val();
+        var confirmNewPassword = $('#confirm-new-password').val();
+        if (newPassword !== confirmNewPassword) {
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box');
+            messageBox.textContent = 'Hasła muszą sie zgadzac!';
+
+            document.body.appendChild(messageBox);
+            setTimeout(() => {
+                messageBox.remove();
+            }, 3000);
+            event.preventDefault();
+        }
+    });
+});
+
+
+const changePassForm = document.getElementById('change-password-form');
+changePassForm.addEventListener('submit',  (event) => {
+    event.preventDefault();
+    const formData = new FormData(changePassForm);
+    const newPassword = formData.get("newPassword")
+    const confirmNewPassword = formData.get("confirmNewPassword")
+
+    changePassword(confirmNewPassword);
+});
+
+async function changePassword(confirmNewPassword){
+    const response = await fetch('/change-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(confirmNewPassword)
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to change the user password!');
+    }else{
+        const messageBox = document.createElement('div');
+        messageBox.classList.add('message-box');
+        messageBox.textContent = 'Hasło zmienione!';
+
+        document.body.appendChild(messageBox);
+        setTimeout(() => {
+            messageBox.remove();
+        }, 3000);
     }
 }

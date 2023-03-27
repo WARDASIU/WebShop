@@ -66,17 +66,34 @@
 </nav>
 
 <div class="container text-center col-lg-3" style="margin-top: 75px;">
-    <form class="form-signin" th:action="@{/login}" method="post" id="login-form">
-        <h1 class="h3 mb-3 font-weight-normal">Zaloguj sie</h1>
-        <label for="username" class="sr-only">Nazwa użytkownika</label>
-        <input type="text" name="username" id="username" class="form-control" placeholder="Login" required autofocus>
+    <div id="login-container">
+        <form class="form-signin" th:action="@{/login}" method="post" id="login-form">
+            <h1 class="h3 mb-3 font-weight-normal">Zaloguj się</h1>
+            <label for="username" class="sr-only">Nazwa użytkownika</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="Login" required autofocus>
 
-        <label for="password" class="sr-only">Hasło</label>
-        <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
+            <label for="password" class="sr-only">Hasło</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
-        <p class="text-muted">&copy; EasyStep</p>
-    </form>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj się</button>
+            <p class="text-muted">&copy; EasyStep</p>
+            <a href="#" id="forgot-password-link">Zapomniałem hasła</a>
+        </form>
+
+        <form class="form-signin" th:action="@{/forgotPassword}" method="post" id="forgot-password-form" style="display:none">
+            <h1 class="h3 mb-3 font-weight-normal">Odzyskiwanie hasła</h1>
+            <p>Wprowadź swój adres email, a wyślemy Ci link do zresetowania hasła.</p>
+            <label for="emailToRemind" class="sr-only">Adres email</label>
+            <input type="email" name="emailToRemind" id="emailToRemind" class="form-control" placeholder="Adres email" required autofocus>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Wyślij odnowienie hasła</button>
+            <p class="text-muted">&copy; EasyStep</p>
+            <a href="#" id="back-to-login-link">Powrót do logowania</a>
+
+            <h3 class="alert-success error email-send" id="email-send" style="display: none; margin: 15px">Link do resetowania hasła został wysłany na podany adres email!</h3>
+            <h3 class="alert-danger error email-noexists" style="display: none; margin: 15px">W systemie nie ma konta o podanym emailu!</h3>
+        </form>
+    </div>
     <div th:if="${param.error}">
         <p class="text-danger">Niepoprawny login lub hasło!</p>
     </div>
@@ -87,10 +104,15 @@
         <input type="text" name="usernameToRegister" id="usernameToRegister" class="form-control" placeholder="Login" required autofocus>
 
         <label for="passwordToRegister" class="sr-only">Hasło</label>
-        <input type="password" name="passwordToRegister" id="passwordToRegister" class="form-control" placeholder="Hasło" min="5" required>
+        <input type="password" name="passwordToRegister" id="passwordToRegister" class="form-control" placeholder="Hasło" minlength="5" required>
 
         <label for="emailToRegister" class="sr-only">Email</label>
         <input type="email" name="emailToRegister" id="emailToRegister" class="form-control" placeholder="Email" required>
+
+        <label for="newsletter">
+            <input type="checkbox" name="newsletter" id="newsletter" value="true">
+            Zapisz mnie do newslettera!
+        </label>
 
         <h3 class="error email-taken-error" style="display: none; margin: 15px">Email już jest zajęty!</h3>
         <h3 class="error login-taken-error" style="display: none; margin: 15px">Nazwa użytkownika już jest zajęta!</h3>

@@ -58,7 +58,7 @@
     </div>
 </nav>
 
-<h1>Edycja profilu</h1>
+<h1 style="margin-top: 100px;">Edycja profilu</h1>
 <form th:object="${user}" id="profile-form">
     <div class="form-group">
         <label for="name">Imię:</label>
@@ -96,6 +96,18 @@
     </div>
 </form>
 
+<h1 style="margin-top: 25px">Zmiana hasła</h1>
+<form action="" id="change-password-form" >
+    <div class="form-group">
+        <label for="newPassword">Nowe hasło:</label>
+        <input type="password" name="newPassword" id="newPassword" required>
+    </div>
+    <div class="form-group">
+        <label for="confirmNewPassword">Potwierdź nowe hasło:</label>
+        <input type="password" name="confirmNewPassword" id="confirmNewPassword" required>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Zmień hasło</button>
+</form>
 
 <script type="text/javascript" th:src="@{/profile/updateUserData.js}"></script>
 </body>

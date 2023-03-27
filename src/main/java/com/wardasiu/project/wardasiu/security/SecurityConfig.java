@@ -20,6 +20,8 @@ public class SecurityConfig {
                         .antMatchers("/admin/**").hasAuthority("ADMIN")
                         .antMatchers("/admin").hasAuthority("ADMIN")
                         .antMatchers("/profile").hasAnyAuthority("ADMIN", "NORMAL")
+                        .antMatchers("/update-profile").hasAnyAuthority("ADMIN", "NORMAL")
+                        .antMatchers("/change-password").hasAnyAuthority("ADMIN", "NORMAL")
                         .anyRequest().permitAll()
                 )
                 .formLogin()

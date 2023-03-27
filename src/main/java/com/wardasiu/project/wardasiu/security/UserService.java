@@ -73,13 +73,12 @@ public class UserService implements UserDetailsService {
             if (field != null) {
                 field.setAccessible(true);
                 try {
-                    if (field.getType() == Integer.class && fieldValue instanceof String) {
+                    if (fieldName.equals("phone")) {
                         fieldValue = Integer.parseInt((String) fieldValue);
                     }
-                    if (field.getType() == boolean.class && fieldValue instanceof String) {
+                    if (fieldName.equals("newsletter")) {
                         fieldValue = Boolean.valueOf((String) fieldValue);
                     }
-
                     field.set(user, fieldValue);
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException("Error updating user field: " + fieldName, e);
@@ -91,5 +90,14 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUsersWithNewsletter() {
         return userRepository.findAllByNewsletterTrue();
+    }
+
+    public boolean existsByEmail(final String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null;
+    }
+
+    public User findUserByEmail(final String email) {
+        return userRepository.findByEmail(email);
     }
 }
