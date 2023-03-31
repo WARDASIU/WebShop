@@ -17,8 +17,11 @@ registerLink.addEventListener('click', () => {
     registerLink.style.display = 'none';
 });
 
+const spinner = document.querySelector('.spinner-border');
 registerForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    spinner.classList.remove('d-none');
+
     const formData = new FormData(registerForm);
     fetch('/register', {
         method: 'POST',
@@ -42,13 +45,26 @@ registerForm.addEventListener('submit', (event) => {
                     loginTakenError.style.display = 'none';
                 }
             } else {
+                const messageBox = document.createElement('div');
+                messageBox.classList.add('message-box');
+                messageBox.textContent = 'Konto zostało utworzone!';
+
+                document.body.appendChild(messageBox);
+                setTimeout(() => {
+                    messageBox.remove();
+                }, 3000);
+                event.preventDefault();
+
                 registerForm.style.display = 'none';
                 loginForm.style.display = 'block';
                 loginLink.style.display = 'none';
                 registerLink.style.display = 'block';
             }
-        });
+        }).finally(() => {
+        spinner.classList.add('d-none');
+    });
 });
+
 const usernameInput = document.getElementById('username');
 const forgotPasswordForm = document.getElementById('forgot-password-form');
 const forgotPasswordLink = document.getElementById('forgot-password-link');

@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -100,4 +97,20 @@ public class UserService implements UserDetailsService {
     public User findUserByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
+
+    public String generateVerificationCode() {
+        int codeLength = 6;
+
+        String codeChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        Random random = new Random();
+        StringBuilder codeBuilder = new StringBuilder();
+        for (int i = 0; i < codeLength; i++) {
+            int index = random.nextInt(codeChars.length());
+            char codeChar = codeChars.charAt(index);
+            codeBuilder.append(codeChar);
+        }
+        return codeBuilder.toString();
+    }
+
 }

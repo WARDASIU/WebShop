@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Nullable;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +38,11 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         if (userService.isLoginAvailable(usernameToRegister)) {
             if (userService.isEmailAvailable(emailToRegister)) {
-                userService.saveUser(new User(usernameToRegister, passwordToRegister, "NORMAL", emailToRegister, Boolean.parseBoolean(newsletter)));
+                String verificationCode = userService.generateVerificationCode();
+                userService.saveUser(new User(usernameToRegister, passwordToRegister, "LOCKED", emailToRegister, Boolean.parseBoolean(newsletter), verificationCode));
+                emailService.sendSimpleEmail(emailToRegister,"Kod weryfikacyjny dla konta w sklepie EasyStep", "Kod weryfikacyjny: " + verificationCode);
+
+                log.info(passwordToRegister);
             } else {
                 response.put("errors", Collections.singletonMap("emailTaken", true));
             }
@@ -43,6 +50,26 @@ public class UserController {
             response.put("errors", Collections.singletonMap("loginTaken", true));
         }
         return response;
+    }
+
+    @PostMapping("/verify")
+    public ModelAndView verifyUser(Authentication authentication,
+                                   @RequestParam String verificationCode) {
+        ModelAndView modelAndView = new ModelAndView();
+        User user = userService.findUserByUsername(authentication.getName());
+
+        if (user != null && user.getVerificationCode().equals(verificationCode)) {
+            user.setEnabled(true);
+            user.setRole("NORMAL");
+            userService.saveUser(user);
+            modelAndView.setViewName("index");
+            modelAndView.addObject("isLoggedIn", true);
+        } else {
+            modelAndView.setViewName("verification");
+            modelAndView.addObject("error", true);
+            modelAndView.addObject(authentication);
+        }
+        return modelAndView;
     }
 
     @PostMapping("/resetPassword")

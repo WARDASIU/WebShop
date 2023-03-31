@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -59,7 +56,6 @@ public class CartService {
     }
 
     public Optional<Cart> findCartByUser(final User user) {
-        log.info(cartRepository.findByUser(user.getIdUser()).get().toString());
         return cartRepository.findByUser(user.getIdUser());
     }
 
@@ -68,6 +64,10 @@ public class CartService {
     }
 
     public Map<String, Integer> getCartItems(User user){
+        if(findCartByUser(user).isEmpty()){
+            return Collections.emptyMap();
+        }
+
         List<CartItem> cartItems = cartItemRepository.findAllByCart(cartRepository.findByUser(user.getIdUser()).get().getIdCart());
         Map<String, Integer> cartItemsMap = new HashMap<>();
 

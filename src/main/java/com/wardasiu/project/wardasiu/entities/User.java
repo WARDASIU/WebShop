@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.*;
 
@@ -31,6 +32,11 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    private String verificationCode;
+
     private boolean newsletter;
 
     private String name;
@@ -44,11 +50,12 @@ public class User {
     @Column(name = "post_code")
     private String postCode;
 
-    public User(final String username, final String password, final String role, final String email, boolean newsletter) {
+    public User(final String username, final String password, final String role, final String email, boolean newsletter, final String verificationCode) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.email = email;
         this.newsletter = newsletter;
+        this.verificationCode = verificationCode;
     }
 }
