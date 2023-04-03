@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Baza wiedzy EasyStep</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/main/home.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/knowledgeBase/knowledgeBase.css}">
+    <link rel="stylesheet" type="text/css" href="../static/main/home.css">
+    <link rel="stylesheet" type="text/css" href="../static/knowledgeBase/knowledgeBase.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Lato|Montserrat&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ea7c74f2a3.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li><a class="nav-link" href="/">Strona główna</a></li>
+            <li><a class="nav-link" href="/products">Produkty</a></li>
+            <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy<span class="sr-only">(current)</span></a></li>
+            <li><a class="nav-link" href="/services">Usługi</a></li>
+            <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
+            <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
+            <li th:unless="${isLoggedIn}">
+                <a class="nav-link" href="/login">Zaloguj</a>
+            </li>
+            <li th:if="${isLoggedIn}" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Konto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/profile">Profil</a>
+                    <a class="dropdown-item" href="/logout" th:href="@{/logout}">Wyloguj</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 75px;">
+    <div class="row">
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Schody drewniane
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Schody drewniane to doskonały wybór dla osób ceniących sobie naturalne i eleganckie rozwiązania.
+                    Przygotowanie schodów drewnianych wymaga kilku etapów. Po pierwsze, należy przygotować projekt
+                    schodów, który uwzględnia zarówno wymiary, jak i styl schodów. Następnie należy wybrać odpowiednie
+                    drewno, które będzie spełniało wymagania co do wytrzymałości, trwałości i estetyki.
+                    Po wyborze drewna przystępuje się do wycinania i obróbki elementów składowych schodów, czyli stopni
+                    i podestów. Wszystkie elementy muszą być dokładnie wymierzone i przycięte zgodnie z projektem.
+                    Następnie następuje fazowanie, czyli wykonywanie rowków i nacięć, które pozwolą na poprawne
+                    połączenie poszczególnych elementów.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Konstrukcja metalowa
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Konstrukcja metalowa schodów to popularna alternatywa dla konstrukcji drewnianych. Schody metalowe
+                    są zwykle wytrzymalsze i bardziej odporne na uszkodzenia niż ich drewniane odpowiedniki. Konstrukcja
+                    metalowa składa się z różnych elementów, takich jak stopnie, podpory i balustrady, które są wykonane
+                    z metalowych profili i rur.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Konstrukcja drewniana
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Konstrukcja drewniana schodów jest zwykle wykonana z drewnianych belek i stopni, które są
+                    odpowiednio połączone za pomocą łączników i kołków drewnianych. Belki zwykle biegną równolegle do
+                    kierunku schodów i są umieszczone na tzw. płozach, czyli poprzecznych belkach, które są osadzone na
+                    murze lub na podłożu. Stopnie z kolei są mocowane do belek za pomocą wkrętów lub kołków, a ich
+                    krawędzie są zazwyczaj zaokrąglone, aby zapewnić bezpieczne użytkowanie. Konstrukcja drewniana
+                    schodów jest nie tylko funkcjonalna, ale również estetyczna, dzięki czemu stanowi ozdobę wnętrza
+                    domu czy mieszkania.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Altanki
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Konstrukcja altanki zazwyczaj zaczyna się od wykonania projektu, który określa wymiary, kształt i
+                    styl altanki. Następnie wybiera się odpowiednie materiały, takie jak drewno lub metal, w zależności
+                    od preferencji i przeznaczenia altanki.
+                    W przypadku konstrukcji drewnianych, po wybraniu odpowiedniej jakości drewna, najpierw wykonuje się
+                    ramę altanki, która składa się z belek i słupów. Następnie dodaje się dach i bocianie, które
+                    zabezpieczają altankę przed deszczem i słońcem. Ostatecznie, altanka jest lakierowana lub malowana,
+                    aby chronić drewno przed szkodliwym wpływem warunków atmosferycznych.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Podłoga
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Podłoga drewniana to jeden z najpiękniejszych i najtrwalszych rodzajów podłóg. Aby stworzyć solidną
+                    podłogę drewnianą, trzeba przede wszystkim zadbać o odpowiednią konstrukcję podłoża, na którym
+                    zostanie ona ułożona. Podłoże powinno być suche, gładkie i bez żadnych wypukłości czy wklęsłości,
+                    aby drewniane deski podłogi nie uległy odkształceniom.
+                    Następnie należy wybrać odpowiednie drewno do produkcji podłogi. Najczęściej stosowanym gatunkiem
+                    drewna jest dąb, jednak popularne są także jesion, buk, klon czy sosna. Drewno powinno być starannie
+                    wyselekcjonowane pod kątem jakości i trwałości.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Elementy drewniane
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Losowe elementy drewniane mogą być wykorzystane w różnych celach, na przykład w budowie altan,
+                    ogrodzeń, mebli ogrodowych i wielu innych. Przygotowanie takich elementów zwykle zaczyna się od
+                    odpowiedniego dobrania gatunku drewna, które powinno być suche i wolne od uszkodzeń. Następnie
+                    drewno jest wstępnie przecinane na odpowiednie wymiary, a krawędzie są cyklinowane i szlifowane, aby
+                    uzyskać gładką powierzchnię.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Stoły z żywicą
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Blaty z żywicą to popularne rozwiązanie w dzisiejszych czasach, szczególnie w nowoczesnym designie.
+                    Aby przygotować taki blat, należy wykonać kilka kroków.
+                    Po pierwsze, należy wybrać odpowiednią drewnianą płytę, która będzie podłożem dla żywicy. Płyta ta
+                    musi być starannie szlifowana, aby uzyskać gładką powierzchnię i usunąć wszelkie nierówności.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="tile">
+                <div class="text-box">
+                    Stoły z żywicą
+                </div>
+                <div class="separator"></div>
+                <div class="attached-text">
+                    Blaty z żywicą to popularne rozwiązanie w dzisiejszych czasach, szczególnie w nowoczesnym designie.
+                    Aby przygotować taki blat, należy wykonać kilka kroków.
+                    Po pierwsze, należy wybrać odpowiednią drewnianą płytę, która będzie podłożem dla żywicy. Płyta ta
+                    musi być starannie szlifowana, aby uzyskać gładką powierzchnię i usunąć wszelkie nierówności.
+                </div>
+            </div>
+        </div>
+
+        <div class="card-text">
+            <div class="col-lg-8 text-center" style="margin: 0 auto;">
+                <h1 class="headers">Platnosci</h1>
+                <div class="separator"></div>
+                <div class="text-free">
+                    <strong>Płatności tylko przy odbiorze!</strong>
+                    Dla naszego serwisu istnieje kilka sposobów płatności za zamówione produkty. Możesz dokonać
+                    płatności
+                    przelewem na nasze konto bankowe lub zapłacić gotówką przy odbiorze towaru. Opcja płatności
+                    przelewem
+                    jest szczególnie polecana, gdyż pozwala uniknąć konieczności posiadania gotówki przy odbiorze, a
+                    także
+                    przyspiesza realizację zamówienia. W przypadku płatności przy odbiorze towaru, istnieje możliwość
+                    dokonania sprawdzenia zawartości paczki przed przekazaniem pieniędzy kurierowi. Wszystkie informacje
+                    dotyczące płatności oraz numer konta bankowego znajdują się na potwierdzeniu zamówienia, które
+                    otrzymasz
+                    na swój adres e-mail.
+                </div>
+            </div>
+        </div>
+
+        <div class="card-text">
+            <div class="col-lg-8 text-center" style="margin: 0 auto;">
+                <h1 class="headers">Dostawa</h1>
+                <div class="separator"></div>
+                <div class="text-free">
+                    Dostawa kurierska jest jedynym sposobem dostarczenia zamówionych produktów. Po złożeniu zamówienia i
+                    dokonaniu płatności, nasz zespół rozpoczyna proces przygotowania zamówienia do wysyłki. Produkty
+                    pakowane są w bezpieczne opakowania, aby zapewnić ich bezpieczny transport.
+                    Po nadaniu przesyłki, otrzymasz informację o numerze przesyłki oraz linku do śledzenia przesyłki.
+                    Kurier
+                    dostarczy Twoje zamówienie w wyznaczonym terminie bezpośrednio pod wskazany adres. Aby zapewnić
+                    bezpieczeństwo i jakość dostawy, wymagamy podpisu osoby przyjmującej paczkę.
+                    Jeśli masz jakiekolwiek pytania dotyczące dostawy, możesz skontaktować się z nami za pośrednictwem
+                    formularza kontaktowego na naszej stronie internetowej lub poprzez naszą infolinię. Jesteśmy gotowi
+                    odpowiedzieć na każde zapytanie i pomóc w razie potrzeby.
+                </div>
+            </div>
+        </div>
+
+        <div class="card-text">
+            <div class="col-lg-8 text-center" style="margin: 0 auto;">
+                <h1 class="headers">Reklamacja</h1>
+                <div class="separator"></div>
+                <div class="text-free">
+                    Reklamacje produktów można zgłaszać w przypadku, gdy produkt posiada wady fabryczne lub uszkodzenia
+                    wynikłe w trakcie transportu. W przypadku reklamacji prosimy o niezwłoczny kontakt z naszym działem
+                    obsługi klienta drogą mailową lub telefoniczną w celu uzgodnienia dalszych kroków. Należy pamiętać,
+                    że
+                    każda reklamacja będzie rozpatrywana indywidualnie i zgodnie z obowiązującymi przepisami prawa
+                    konsumenta. W przypadku uzasadnionej reklamacji, klient ma prawo do wymiany produktu na nowy lub do
+                    zwrotu pieniędzy.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/knowledgeBase/knowledgeBaseScripts.js}"></script>
+</body>
+</html>

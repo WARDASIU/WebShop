@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,8 +38,6 @@ public class UserController {
                 String verificationCode = userService.generateVerificationCode();
                 userService.saveUser(new User(usernameToRegister, passwordToRegister, "LOCKED", emailToRegister, Boolean.parseBoolean(newsletter), verificationCode));
                 emailService.sendSimpleEmail(emailToRegister,"Kod weryfikacyjny dla konta w sklepie EasyStep", "Kod weryfikacyjny: " + verificationCode);
-
-                log.info(passwordToRegister);
             } else {
                 response.put("errors", Collections.singletonMap("emailTaken", true));
             }

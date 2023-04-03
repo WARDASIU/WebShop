@@ -21,7 +21,4 @@ public class Cart {
 
     @Column(name = "id_user")
     private Long user;
-
-    @Column(name = "id_cart_item")
-    private Long idCartItem;
 }
