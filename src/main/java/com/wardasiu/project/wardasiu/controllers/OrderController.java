@@ -1,9 +1,15 @@
 package com.wardasiu.project.wardasiu.controllers;
 
+import com.google.common.io.Resources;
 import com.wardasiu.project.wardasiu.entities.*;
 import com.wardasiu.project.wardasiu.repositories.ProductsRepository;
 import com.wardasiu.project.wardasiu.security.UserService;
+import com.wardasiu.project.wardasiu.service.CartService;
 import com.wardasiu.project.wardasiu.service.EmailService;
+import com.wardasiu.project.wardasiu.service.InvoiceGenerator;
+import com.wardasiu.project.wardasiu.service.OrderService;
+import com.wardasiu.project.wardasiu.service.invoice.InvoiceReceiver;
+import com.wardasiu.project.wardasiu.service.invoice.InvoiceRow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -14,9 +20,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -25,10 +34,14 @@ public class OrderController {
     private UserService userService;
 
     @Autowired
-    public ProductsRepository productsRepository;
+    private EmailService emailService;
 
     @Autowired
-    private EmailService emailService;
+    private CartService cartService;
+
+    @Autowired
+    private OrderService orderService;
+
 
     @GetMapping
     @RequestMapping("/prepareOrder")
@@ -37,10 +50,14 @@ public class OrderController {
         boolean isLoggedIn = authentication != null;
         modelAndView.addObject("isLoggedIn", isLoggedIn);
 
+
+
         if (isLoggedIn) {
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
             modelAndView.addObject("isAdmin", isAdmin);
+            User user = userService.findUserByUsername(authentication.getName());
+            modelAndView.addObject("user", user);
         }
 
         return modelAndView;
@@ -49,7 +66,7 @@ public class OrderController {
     @PostMapping
     @RequestMapping("/serviceOrder")
     public ResponseEntity<?> serviceOrder(Authentication authentication,
-                                           @RequestParam Map<String, String> values) {
+                                          @RequestParam Map<String, String> values) {
         String receiver = values.get("email");
         if (authentication != null) {
             receiver = userService.findUserByUsername(authentication.getName()).getEmail();
@@ -76,7 +93,7 @@ public class OrderController {
     @PostMapping
     @RequestMapping("/personalizeOrder")
     public ResponseEntity<?> personalizeOrder(Authentication authentication,
-                                           @RequestParam Map<String, String> values) {
+                                              @RequestParam Map<String, String> values) {
         log.info(values.toString());
         String receiver = values.get("email");
         if (authentication != null) {
@@ -101,58 +118,34 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping(path = "/prepareOrder/checkout")
+    public ResponseEntity<?> checkout(Authentication authentication,
+                                      @RequestParam @Nullable Map<String, String> values) {
+        if (!authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } else {
+            User user = userService.findUserByUsername(authentication.getName());
+            List<CartItem> cartItems = cartService.findCartItemsByUserCart(user);
 
+            if (cartItems.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
 
+            Order order = orderService.createOrder(new Order(
+                    user.getIdUser(),
+                    user.getAddress(),
+                    user.getName(),
+                    user.getSurname(),
+                    user.getPostCode()
+            ));
 
+            File invoice = orderService.generateInvoiceForOrder(user, cartItems, order);
+            emailService.sendHTMLEmailWithAttachments(
+                    user.getEmail(), "Zamowienie nr " + order.getIdOrder() + " z firmy EasyStep", "Dane faktury:", invoice);
 
+            cartService.deleteCartItems(cartItems);
 
-
-
-
-
-
-
-
-
-
-
-//    @PostMapping("/checkout")
-//    public String prepareOrder(@AuthenticationPrincipal UserDetails userDetails,
-//                               HttpSession session) {
-//        String username = userDetails.getUsername();
-//        User user = userService.findUserByUsername(username);
-//
-//        List<Product> products = new ArrayList<>(Collections.emptyList());
-//
-//        for (int i = 0; i < productIds.size(); i++) {
-//            products.add(i, productsRepository.findProductByIdProducts(productIds.get(i)).get());
-//        }
-//
-//        List<OrderItem> items = new ArrayList<>();
-//        for (int i = 0; i < products.size(); i++) {
-//            items.add(new OrderItem(products.get(i), quantities.get(i)));
-//        }
-//        Order order = new Order(items);
-//        session.setAttribute("order", order);
-//
-//        return "redirect:https://payu.com/pay";
-//    }
-
-
-//    @PostMapping("/createOrder")
-//    public ResponseEntity<String> createOrder(@RequestBody OrderCreateRequest request) throws Exception {
-//        String url = "https://secure.snd.payu.com/api/v2_1/orders";
-//        String authorization = "Bearer d9a4536e-62ba-4f60-8017-6053211d3f47";
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.setBearerAuth(authorization);
-//
-//        HttpEntity<OrderCreateRequest> entity = new HttpEntity<OrderCreateRequest>(request, headers);
-//
-//        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-//
-//        return new ResponseEntity<String>(response.getBody(), HttpStatus.OK);
-//    }
+            return ResponseEntity.ok().build();
+        }
+    }
 }

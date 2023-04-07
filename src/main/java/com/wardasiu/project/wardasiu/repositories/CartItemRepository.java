@@ -13,4 +13,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     @Override
     <S extends CartItem> S save(S entity);
+
+    @Override
+    void delete(CartItem entity);
 }

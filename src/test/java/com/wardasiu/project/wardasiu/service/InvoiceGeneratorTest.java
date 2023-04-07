@@ -11,6 +11,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 @SpringBootTest
 class InvoiceGeneratorTest {
@@ -48,8 +49,11 @@ class InvoiceGeneratorTest {
 						.price(BigDecimal.valueOf(50.99))
 						.build()
 		);
-		URL url = Resources.getResource("invoice.pdf");
-		invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, url.getPath());
+		ClassLoader classLoader = getClass().getClassLoader();
+		String file = Objects.requireNonNull(classLoader.getResource("invoice.pdf")).getPath();
+		file = file.substring(1);
+
+		invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
 	}
 	
 	@Test
@@ -80,7 +84,11 @@ class InvoiceGeneratorTest {
 						.price(BigDecimal.valueOf(50.99))
 						.build()
 		);
-		File file = invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, "invoice.pdf");
+		ClassLoader classLoader = getClass().getClassLoader();
+		String filePath = Objects.requireNonNull(classLoader.getResource("invoice.pdf")).getPath();
+		filePath = filePath.substring(1);
+
+		File file = invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, filePath);
 		emailService.sendSimpleEmailWithAttachments("easystepapi@gmail.com", "Test", "Test body", file);
 	}
 }

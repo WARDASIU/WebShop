@@ -10,10 +10,10 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @NoArgsConstructor
 public class Order {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id_order", nullable = false)
     private Long idOrder;
@@ -30,9 +30,6 @@ public class Order {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "delivery_method")
-    private String deliveryMethod;
-
     @Column(name = "post_code")
     private String postCode;
 
@@ -42,7 +39,11 @@ public class Order {
     @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    public Order(final List<OrderItem> items) {
-
+    public Order(final Long idUser, final String address, final String name, final String surname, final String postCode) {
+        this.idUser = idUser;
+        this.address = address;
+        this.name = name;
+        this.surname = surname;
+        this.postCode = postCode;
     }
 }

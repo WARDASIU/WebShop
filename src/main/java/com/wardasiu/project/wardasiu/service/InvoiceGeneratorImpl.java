@@ -1,8 +1,9 @@
 package com.wardasiu.project.wardasiu.service;
 
+import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
@@ -14,9 +15,9 @@ import com.wardasiu.project.wardasiu.service.invoice.InvoiceReceiver;
 import com.wardasiu.project.wardasiu.service.invoice.InvoiceRow;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -26,13 +27,14 @@ public class InvoiceGeneratorImpl implements InvoiceGenerator {
 	public File generateInvoice(InvoiceReceiver invoiceReceiver, List<InvoiceRow> invoiceRows, String path) {
 		File file = new File(path);
 		PdfDocument pdfDoc = null;
+
 		try {
 			pdfDoc = new PdfDocument(new PdfWriter(file.getPath()));
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 		Document doc = new Document(pdfDoc);
-		
+
 		Paragraph title = new Paragraph("Faktura");
 		title.setFontSize(24);
 		title.setFontColor(new DeviceRgb(100, 200, 200));
@@ -57,12 +59,11 @@ public class InvoiceGeneratorImpl implements InvoiceGenerator {
 		doc.add(phone);
 		doc.add(email);
 		
-		Table table = new Table(4);
+		Table table = new Table(3);
 		table.setWidth(new UnitValue(UnitValue.PERCENT, 100));
-		table.addHeaderCell("Name");
-		table.addHeaderCell("Description");
-		table.addHeaderCell("Quantity");
-		table.addHeaderCell("Price");
+		table.addHeaderCell("Nazwa");
+		table.addHeaderCell("Ilosc");
+		table.addHeaderCell("Cena");
 		
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
@@ -71,12 +72,10 @@ public class InvoiceGeneratorImpl implements InvoiceGenerator {
 		
 		for (InvoiceRow invoiceRow : invoiceRows) {
 			table.addCell(new Cell().add(new Paragraph(invoiceRow.getName())));
-			table.addCell(new Cell().add(new Paragraph(invoiceRow.getDescription())));
 			table.addCell(new Cell().add(new Paragraph(String.valueOf(invoiceRow.getQuantity()))));
 			table.addCell(new Cell().add(new Paragraph(df.format(invoiceRow.getPrice()))));
 		}
-		
-		table.addCell(new Cell().add(new Paragraph("Total")));
+
 		table.addCell(new Cell().add(new Paragraph("")));
 		table.addCell(new Cell().add(new Paragraph(String.valueOf((
 				invoiceRows.stream()

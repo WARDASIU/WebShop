@@ -101,4 +101,8 @@ public class CartService {
             log.warn("Cart not found for user");
         }
     }
+
+    public void deleteCartItems(List<CartItem> cartItems){
+        cartItemRepository.deleteAll(cartItems);
+    }
 }

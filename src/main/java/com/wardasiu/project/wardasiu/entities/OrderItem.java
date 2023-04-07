@@ -22,14 +22,13 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "id_products")
-    private Long idProducts;
 
     @Column(name = "id_order")
     private Long idOrder;
 
-    public OrderItem(final Product product, final int quantity) {
-        this.idProducts = product.getIdProducts();
-        this.quantity = quantity;
-    }
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "price", nullable = false)
+    private int price;
 }

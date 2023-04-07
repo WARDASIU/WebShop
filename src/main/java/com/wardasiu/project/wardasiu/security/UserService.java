@@ -53,6 +53,10 @@ public class UserService implements UserDetailsService {
         return user == null;
     }
 
+    public void saveUserWithoutEncode(User user){
+        userRepository.save(user);
+    }
+
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -113,4 +117,7 @@ public class UserService implements UserDetailsService {
         return codeBuilder.toString();
     }
 
+    public void deleteUser(Long id){
+        userRepository.deleteById(id);
+    }
 }

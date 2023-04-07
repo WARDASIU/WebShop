@@ -56,7 +56,7 @@ public class UserController {
         if (user != null && user.getVerificationCode().equals(verificationCode)) {
             user.setEnabled(true);
             user.setRole("NORMAL");
-            userService.saveUser(user);
+            userService.saveUserWithoutEncode(user);
             modelAndView.setViewName("index");
             modelAndView.addObject("isLoggedIn", true);
         } else {

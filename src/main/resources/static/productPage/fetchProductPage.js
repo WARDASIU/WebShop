@@ -7,6 +7,7 @@ window.onload = function () {
                 const element = document.createElement('div');
                 element.classList.add('product-tile', "col-lg-3", "product-tile-addition", "mx-2");
                 let idProduct = item.idProducts.toString();
+                element.id = "productTile-" + idProduct;
                 let imagesHTML = [];
                 for (let i = 0; i < 4; i++) {
                     imagesHTML[i] = "/product/" + idProduct + "/images/" + (i+1);
