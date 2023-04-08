@@ -7,5 +7,5 @@ import java.io.File;
 import java.util.List;
 
 public interface InvoiceGenerator {
-	File generateInvoice(InvoiceReceiver invoiceReceiver, List<InvoiceRow> invoiceRows, String path);
+	File generateInvoice(InvoiceReceiver invoiceReceiver, List<InvoiceRow> invoiceRows, String path, String idOrder);
 }

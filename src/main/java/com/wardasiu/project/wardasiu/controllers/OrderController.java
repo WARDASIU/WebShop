@@ -1,6 +1,7 @@
 package com.wardasiu.project.wardasiu.controllers;
 
 import com.google.common.io.Resources;
+import com.google.gson.Gson;
 import com.wardasiu.project.wardasiu.entities.*;
 import com.wardasiu.project.wardasiu.repositories.ProductsRepository;
 import com.wardasiu.project.wardasiu.security.UserService;
@@ -161,5 +162,12 @@ public class OrderController {
 
             return ResponseEntity.ok().build();
         }
+    }
+
+    @RequestMapping(value = "/api/orders", method = RequestMethod.GET)
+    public String getAllOrderAsList() {
+        Gson gson = new Gson();
+
+        return gson.toJson(orderService.findAllOrders());
     }
 }

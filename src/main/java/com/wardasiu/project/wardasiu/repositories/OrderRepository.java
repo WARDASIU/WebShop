@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByIdUser(Long userId);
+    List<Order> findAll();
 
     @Override
     <S extends Order> S save(S entity);

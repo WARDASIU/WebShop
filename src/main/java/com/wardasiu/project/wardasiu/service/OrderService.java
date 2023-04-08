@@ -16,6 +16,8 @@ public interface OrderService {
 
     List<Order> getOrders(long userId);
 
+    List<Order> findAllOrders();
+
     Order createOrder(Order order);
 
     File generateInvoiceForOrder(User user, List<CartItem> cartItems, Order order);

@@ -15,6 +15,7 @@ import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final static String PATH = "src\\main\\resources\\static\\invoices";
     @Autowired
     private OrderRepository orderRepository;
 
@@ -38,6 +39,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
     public Order createOrder(Order order) {
         return orderRepository.save(order);
     }
@@ -56,9 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<InvoiceRow> invoiceRows = generateInvoiceRows(orderItems);
 
-        String file = generatePath();
-
-        return invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
+        return invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, PATH, order.getIdOrder().toString());
     }
 
     @Override
@@ -73,9 +77,8 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderItem> orderItems = createOrderItemsForOrderFromSessionStorage(sessionStorageItems, order);
         List<InvoiceRow> invoiceRows = generateInvoiceRows(orderItems);
-        String file = generatePath();
 
-        return invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
+        return invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, PATH, order.getIdOrder().toString());
     }
 
     private List<OrderItem> createOrderItemsForOrderFromCartItems(List<CartItem> cartItems, Order order) {
@@ -129,13 +132,5 @@ public class OrderServiceImpl implements OrderService {
             invoiceRows.add(row);
         }
         return invoiceRows;
-    }
-
-    private String generatePath(){
-        ClassLoader classLoader = getClass().getClassLoader();
-        String file = Objects.requireNonNull(classLoader.getResource("static/invoice.pdf")).getPath();
-        file = file.substring(1);
-
-        return file;
     }
 }

@@ -62,18 +62,18 @@
             <div class="sidepanel">
                 <nav class="nav nav-tabs">
                     <a class="nav-link" href="#produkty" style="width: 100%">Zarządzanie produktami</a>
-                    <a class="nav-link" href="#zamowienia" style="width: 100%">Zamówienia</a>
+                    <a class="nav-link" href="#orders" style="width: 100%">Zamówienia</a>
                     <a class="nav-link" href="#newsletter" style="width: 100%">Newsletter</a>
                 </nav>
                 <div id="produkty">
-                    <p><a href="#" class="add-product">Dodaj produkt</a></p>
-                    <p><a href="#" class="edit-product">Edytuj produkt</a></p>
+                    <p><a class="add-product">Dodaj produkt</a></p>
+                    <p><a class="edit-product">Edytuj produkt</a></p>
                 </div>
                 <div id="newsletter">
                     <p><a th:href="@{/admin/adminNewsletter}" class="send-newsletter">Wyslij newsletter</a></p>
                 </div>
-                <div id="zamowienia">
-                    <p><a href="#" class="orders">Zobacz zamówienia</a></p>
+                <div id="orders">
+                    <p><a th:href="@{/admin/adminOrders}" class="orders">Zobacz zamówienia</a></p>
                 </div>
             </div>
         </div>
@@ -85,5 +85,6 @@
 <script type="text/javascript" th:src="@{/admin/js/adminSidePanel.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/showSelectedOption.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/showNewsletter.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/showOrders.js}"></script>
 </body>
 </html>

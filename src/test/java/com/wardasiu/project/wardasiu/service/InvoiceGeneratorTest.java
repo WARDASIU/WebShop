@@ -6,10 +6,15 @@ import com.wardasiu.project.wardasiu.service.invoice.InvoiceRow;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +25,7 @@ class InvoiceGeneratorTest {
 	
 	@Autowired
 	EmailService emailService;
-	
+
 	@Test
 	void generateInvoiceTest() {
 		InvoiceReceiver invoiceReceiver = InvoiceReceiver.builder()
@@ -49,11 +54,8 @@ class InvoiceGeneratorTest {
 						.price(BigDecimal.valueOf(50.99))
 						.build()
 		);
-		ClassLoader classLoader = getClass().getClassLoader();
-		String file = Objects.requireNonNull(classLoader.getResource("static/invoice.pdf")).getPath();
-		file = file.substring(1);
 
-		invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
+		invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, "src\\main\\resources\\static\\invoices", "888");
 	}
 	
 	@Test
@@ -85,10 +87,10 @@ class InvoiceGeneratorTest {
 						.build()
 		);
 		ClassLoader classLoader = getClass().getClassLoader();
-		String filePath = Objects.requireNonNull(classLoader.getResource("static/invoice.pdf")).getPath();
+		String filePath = Objects.requireNonNull(classLoader.getResource("static/invoices/invoice.pdf")).getPath();
 		filePath = filePath.substring(1);
 
-		File file = invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, filePath);
+		File file = invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, filePath, "000");
 		emailService.sendSimpleEmailWithAttachments("easystepapi@gmail.com", "Test", "Test body", file);
 	}
 }

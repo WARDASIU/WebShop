@@ -17,15 +17,20 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.List;
 
 @Service
 public class InvoiceGeneratorImpl implements InvoiceGenerator {
 	@Override
-	public File generateInvoice(InvoiceReceiver invoiceReceiver, List<InvoiceRow> invoiceRows, String path) {
-		File file = new File(path);
+	public File generateInvoice(InvoiceReceiver invoiceReceiver, List<InvoiceRow> invoiceRows, String path, String idOrder) {
+		String fileName = "Faktura_nr"  + idOrder + ".pdf";
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		File file = new File(dir, fileName);
+
 		PdfDocument pdfDoc = null;
 
 		try {
