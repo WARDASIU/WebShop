@@ -51,7 +51,6 @@ public class OrderController {
         modelAndView.addObject("isLoggedIn", isLoggedIn);
 
 
-
         if (isLoggedIn) {
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
@@ -118,11 +117,25 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(path = "/prepareOrder/checkout")
+    @PostMapping("/prepareOrder/checkout")
     public ResponseEntity<?> checkout(Authentication authentication,
                                       @RequestParam @Nullable Map<String, String> values) {
-        if (!authentication.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (authentication == null) {
+            Order order = orderService.createOrder(new Order(
+                    values.get("name"),
+                    values.get("surname"),
+                    values.get("phone"),
+                    values.get("address"),
+                    values.get("post_code")
+            ));
+
+            Map<String, Integer> cartItemsFromSessionStorage = cartService.getSessionStorageCartItems(values.get("cartData"));
+
+            File invoice = orderService.generateInvoiceForUnauthorizedOrder(values, cartItemsFromSessionStorage, order);
+            emailService.sendHTMLEmailWithAttachments(
+                    values.get("email"), "Zamowienie nr " + order.getIdOrder() + " z firmy EasyStep", "Dane faktury:", invoice);
+
+            return ResponseEntity.ok().build();
         } else {
             User user = userService.findUserByUsername(authentication.getName());
             List<CartItem> cartItems = cartService.findCartItemsByUserCart(user);
@@ -133,10 +146,11 @@ public class OrderController {
 
             Order order = orderService.createOrder(new Order(
                     user.getIdUser(),
-                    user.getAddress(),
                     user.getName(),
                     user.getSurname(),
-                    user.getPostCode()
+                    user.getPostCode(),
+                    user.getAddress(),
+                    user.getPhone().toString()
             ));
 
             File invoice = orderService.generateInvoiceForOrder(user, cartItems, order);

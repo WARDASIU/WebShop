@@ -46,6 +46,8 @@ public class InvoiceGeneratorImpl implements InvoiceGenerator {
 		name.setPaddingTop(20f);
 		Paragraph address = new Paragraph("Adres: " + invoiceReceiver.getAddress());
 		address.setFontSize(12);
+		Paragraph postCode = new Paragraph("Kod pocztowy: " + invoiceReceiver.getPostCode());
+		address.setFontSize(12);
 		Paragraph phone = new Paragraph("Telefon: " + invoiceReceiver.getPhone());
 		phone.setFontSize(12);
 		Paragraph email = new Paragraph("E-mail: " + invoiceReceiver.getEmail());
@@ -56,6 +58,7 @@ public class InvoiceGeneratorImpl implements InvoiceGenerator {
 		doc.add(separator);
 		doc.add(name);
 		doc.add(address);
+		doc.add(postCode);
 		doc.add(phone);
 		doc.add(email);
 		

@@ -50,7 +50,7 @@ class InvoiceGeneratorTest {
 						.build()
 		);
 		ClassLoader classLoader = getClass().getClassLoader();
-		String file = Objects.requireNonNull(classLoader.getResource("invoice.pdf")).getPath();
+		String file = Objects.requireNonNull(classLoader.getResource("static/invoice.pdf")).getPath();
 		file = file.substring(1);
 
 		invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
@@ -85,7 +85,7 @@ class InvoiceGeneratorTest {
 						.build()
 		);
 		ClassLoader classLoader = getClass().getClassLoader();
-		String filePath = Objects.requireNonNull(classLoader.getResource("invoice.pdf")).getPath();
+		String filePath = Objects.requireNonNull(classLoader.getResource("static/invoice.pdf")).getPath();
 		filePath = filePath.substring(1);
 
 		File file = invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, filePath);

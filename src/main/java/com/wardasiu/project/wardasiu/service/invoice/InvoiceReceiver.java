@@ -8,6 +8,7 @@ import lombok.Getter;
 public class InvoiceReceiver {
 	private String name;
 	private String address;
+	private String postCode;
 	private String phone;
 	private String email;
 }

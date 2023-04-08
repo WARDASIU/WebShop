@@ -105,4 +105,15 @@ public class CartService {
     public void deleteCartItems(List<CartItem> cartItems){
         cartItemRepository.deleteAll(cartItems);
     }
+
+    public Map<String, Integer> getSessionStorageCartItems(String values){
+        String parts[] = values.replaceAll("[{\"}]","").split("[,:]");
+        Map<String, Integer> cartItemsFromSessionStorage = new HashMap<>();
+
+        for (int i = 0; i < parts.length; i+=2) {
+            cartItemsFromSessionStorage.put(parts[i].replace("\"",""), Integer.parseInt(parts[i + 1]));
+        }
+
+        return cartItemsFromSessionStorage;
+    }
 }

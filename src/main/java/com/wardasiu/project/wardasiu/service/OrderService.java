@@ -19,4 +19,6 @@ public interface OrderService {
     Order createOrder(Order order);
 
     File generateInvoiceForOrder(User user, List<CartItem> cartItems, Order order);
+
+    File generateInvoiceForUnauthorizedOrder(Map<String, String> values, Map<String, Integer> sessionStorageItems, Order order);
 }

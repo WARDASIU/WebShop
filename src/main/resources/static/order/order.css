@@ -50,3 +50,6 @@ body {
     transition: background-color 0.3s ease;
     margin: 25px 0;
 }
+#profile-form{
+    background: linear-gradient(to bottom right, #F9EACD, #E6D5B8);
+}

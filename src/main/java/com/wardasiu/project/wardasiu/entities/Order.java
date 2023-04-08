@@ -33,17 +33,26 @@ public class Order {
     @Column(name = "post_code")
     private String postCode;
 
-    @Column(name = "city")
-    private String city;
+    @Column(name = "phone")
+    private String phone;
 
     @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    public Order(final Long idUser, final String address, final String name, final String surname, final String postCode) {
+    public Order(final Long idUser, final String name, final String surname, final String postCode, final String address, final String phone) {
         this.idUser = idUser;
         this.address = address;
         this.name = name;
         this.surname = surname;
         this.postCode = postCode;
+        this.phone = phone;
+    }
+
+    public Order(final String name, final String surname, final String postCode, final String address, final String phone) {
+        this.address = address;
+        this.name = name;
+        this.surname = surname;
+        this.postCode = postCode;
+        this.phone = phone;
     }
 }

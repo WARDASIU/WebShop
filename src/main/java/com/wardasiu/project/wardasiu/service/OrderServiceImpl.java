@@ -1,6 +1,5 @@
 package com.wardasiu.project.wardasiu.service;
 
-import com.google.common.io.Resources;
 import com.wardasiu.project.wardasiu.entities.*;
 import com.wardasiu.project.wardasiu.repositories.OrderItemRepository;
 import com.wardasiu.project.wardasiu.repositories.OrderRepository;
@@ -12,11 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -53,30 +48,37 @@ public class OrderServiceImpl implements OrderService {
                 .email(user.getEmail())
                 .phone(String.valueOf(user.getPhone()))
                 .address(user.getAddress())
+                .postCode(user.getPostCode())
                 .name(user.getName() + " " + user.getSurname())
                 .build();
 
-        List<OrderItem> orderItems = createOrderItemsForOrder(cartItems, order);
+        List<OrderItem> orderItems = createOrderItemsForOrderFromCartItems(cartItems, order);
 
-        List<InvoiceRow> invoiceRows = new ArrayList<>();
+        List<InvoiceRow> invoiceRows = generateInvoiceRows(orderItems);
 
-        for (OrderItem item : orderItems) {
-            InvoiceRow row = InvoiceRow.builder()
-                    .name(item.getName())
-                    .quantity(item.getQuantity())
-                    .price(BigDecimal.valueOf(item.getPrice()))
-                    .build();
-            invoiceRows.add(row);
-        }
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        String file = Objects.requireNonNull(classLoader.getResource("invoice.pdf")).getPath();
-        file = file.substring(1);
+        String file = generatePath();
 
         return invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
     }
 
-    private List<OrderItem> createOrderItemsForOrder(List<CartItem> cartItems, Order order) {
+    @Override
+    public File generateInvoiceForUnauthorizedOrder(Map<String, String> values, Map<String, Integer> sessionStorageItems, Order order) {
+        InvoiceReceiver invoiceReceiver = InvoiceReceiver.builder()
+                .email(values.get("email"))
+                .phone(values.get("phone"))
+                .address(values.get("address"))
+                .postCode(values.get("post_code"))
+                .name(values.get("name") + " " + values.get("surname"))
+                .build();
+
+        List<OrderItem> orderItems = createOrderItemsForOrderFromSessionStorage(sessionStorageItems, order);
+        List<InvoiceRow> invoiceRows = generateInvoiceRows(orderItems);
+        String file = generatePath();
+
+        return invoiceGenerator.generateInvoice(invoiceReceiver, invoiceRows, file);
+    }
+
+    private List<OrderItem> createOrderItemsForOrderFromCartItems(List<CartItem> cartItems, Order order) {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {
@@ -92,5 +94,48 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orderItems;
+    }
+
+    private List<OrderItem> createOrderItemsForOrderFromSessionStorage(Map<String, Integer> cartItemsSessionStorage, Order order) {
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : cartItemsSessionStorage.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+
+            Optional<Product> product = productsRepository.findProductByIdProducts(Long.valueOf(key));
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setName(product.get().getName());
+            orderItem.setPrice(product.get().getPrice());
+            orderItem.setQuantity(value);
+            orderItem.setIdOrder(order.getIdOrder());
+            orderItems.add(orderItem);
+            orderItemRepository.save(orderItem);
+        }
+
+        return orderItems;
+    }
+
+    private List<InvoiceRow> generateInvoiceRows(List<OrderItem> orderItems){
+        List<InvoiceRow> invoiceRows = new ArrayList<>();
+
+        for (OrderItem item : orderItems) {
+            InvoiceRow row = InvoiceRow.builder()
+                    .name(item.getName())
+                    .quantity(item.getQuantity())
+                    .price(BigDecimal.valueOf(item.getPrice()))
+                    .build();
+            invoiceRows.add(row);
+        }
+        return invoiceRows;
+    }
+
+    private String generatePath(){
+        ClassLoader classLoader = getClass().getClassLoader();
+        String file = Objects.requireNonNull(classLoader.getResource("static/invoice.pdf")).getPath();
+        file = file.substring(1);
+
+        return file;
     }
 }
