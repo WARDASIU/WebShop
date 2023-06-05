@@ -4,9 +4,29 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../detailed-view/detailed-product-view-styles.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://kit.fontawesome.com/ea7c74f2a3.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/detailed-view/detailed-product-view-styles.css}">
-    <title>Product Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main/home.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/productPage/products.css}">
+
+    <title>Widok produktu</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
@@ -16,12 +36,12 @@
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li><a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a></li>
-            <li><a class="nav-link" href="/products">Produkty</a></li>
+            <li><a class="nav-link" href="/">Strona główna</a></li>
+            <li><a class="nav-link" href="/products">Produkty<span class="sr-only">(current)</span></a></li>
             <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy</a></li>
-            <li><a class="nav-link" href="/services">Usługi</a></li>
             <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
             <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
+            <li th:if="${isAdmin}"><a class="nav-link" href="/admin">Zarządzanie</a></li>
             <li th:unless="${isLoggedIn}">
                 <a class="nav-link" href="/login">Zaloguj</a>
             </li>
@@ -39,7 +59,29 @@
     </div>
 </nav>
 
+<div id="view">
+
+</div>
+
+<div class="cart-icon" onclick="displayCart()">
+    <i class="fa fa-shopping-cart"></i>
+</div>
+
+<div id="cart-window" style="display:none;">
+    <div id="cart-content">
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+        intent="WELCOME"
+        chat-title="EasyStep asystent"
+        agent-id="e13929ea-8179-4598-8a90-67795094ed41"
+        language-code="pl"
+></df-messenger>
+
 <script type="text/javascript" th:src="@{/detailed-view/displayDetailedProductView.js}"></script>
 <script type="text/javascript" th:src="@{/detailed-view/createView.js}"></script>
+<script type="text/javascript" th:src="@{/productPage/displayCart.js}"></script>
 </body>
 </html>

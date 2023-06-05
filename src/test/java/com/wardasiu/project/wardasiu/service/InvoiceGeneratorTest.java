@@ -48,7 +48,7 @@ class InvoiceGeneratorTest {
 						.price(BigDecimal.valueOf(250))
 						.build(),
 				InvoiceRow.builder()
-						.name("Item 3")
+						.name("Iteśąćąśłążźćm 3")
 						.description("Description 3")
 						.quantity(30)
 						.price(BigDecimal.valueOf(50.99))

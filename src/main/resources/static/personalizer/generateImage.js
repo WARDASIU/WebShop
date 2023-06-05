@@ -1,3 +1,5 @@
+const API_KEY = "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";
+
 async function generateAIImage() {
     const form = document.querySelector('#personalizer-form');
     const spinner = document.querySelector('.spinner-border');
@@ -23,7 +25,7 @@ async function generateAIImage() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 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'
+            'Authorization': `Bearer ${API_KEY}`
         },
         body: JSON.stringify({
             model: 'image-alpha-001',
@@ -83,17 +85,12 @@ const translations = {
 async function translate(data) {
     const formDataToEnglish = new FormData();
 
-    for (let i = 0; i < data.length; i++) {
-        const key = Object.keys(data[i])[0];
-        const value = data[i][key];
+    data.map(obj => {
+        const key = Object.keys(obj)[0];
+        const value = obj[key];
 
-        if (translations[key]) {
-            const translatedValue = translations[key][value];
-            formDataToEnglish.append(key, translatedValue || value);
-        } else {
-            formDataToEnglish.append(key, value);
-        }
-    }
+        formDataToEnglish.append(key, translations[key]?.[value] ?? value);
+    });
 
     return formDataToEnglish;
 }

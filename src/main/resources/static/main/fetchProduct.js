@@ -3,10 +3,12 @@ window.onload = function () {
     fetch('/api/products')
         .then(response => response.json())
         .then(products => {
-            count++;
-            if (count < 6) {
                 const container = document.getElementById('products');
                 products.forEach(item => {
+                    if (count === 6){
+                        return;
+                    }
+                    count++;
                     const element = document.createElement('div');
                     element.classList.add('product-tile', "col-lg-3", "product-tile-addition", "mx-2", "col-md-5", "col-sm-12");
                     let idProduct = item.idProducts.toString();
@@ -16,16 +18,16 @@ window.onload = function () {
                     }
 
                     element.innerHTML = `
-                                  <div class="main-image" onclick="window.location.href='/products/${item.idProducts}'">
+                                  <div class="main-image" onclick="window.location.href='/product/${item.idProducts}'">
                                     <img src="${imagesHTML[0]}" alt="" id='produkt_${idProduct}'>
                                   </div>
                                   <div class="col-text" style="padding: 20px">
                                     <div onclick="window.location.href='/products/${item.idProducts}'">                             
                                       <h4>${item.name}</h4>
                                       <h6>${item.description}</h6>
-                                      <h6>${item.price}</h6>                                 
+                                      <h6>${item.price} zł</h6>                                 
                                     </div>         
-                                    <div><button onclick="addItemToCart(${item.idProducts})" class="add-to-cart">Add to cart</button></div>                          
+                                    <div><button onclick="addItemToCart(${item.idProducts})" class="add-to-cart">Dodaj do koszyka</button></div>                          
                                   </div>                               
                                   <div class="nav-arrows" style="position: absolute; top: 45%; width: 100%; display: none;">
                                     <div style="float: left; margin-left: 20px;">
@@ -76,7 +78,5 @@ window.onload = function () {
                         }
                     });
                 })
-
-            }
         });
 }

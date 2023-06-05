@@ -27,7 +27,7 @@ async function displayCart() {
     cartHeader.id = 'cart-header';
 
     const cartTitle = document.createElement('h2');
-    cartTitle.innerText = 'Cart';
+    cartTitle.innerText = 'Koszyk';
 
     const closeButton = document.createElement('button');
     closeButton.innerHTML = '&#9664;';
@@ -232,6 +232,11 @@ async function addItemToCart(productId) {
 }
 
 
+
+function goToOrder(productId){
+    addItemToCart(productId);
+    buyProductsInCart();
+}
 
 
 

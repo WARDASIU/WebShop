@@ -136,7 +136,6 @@ public class OrderController {
             emailService.sendHTMLEmailWithAttachments(
                     values.get("email"), "Zamowienie nr " + order.getIdOrder() + " z firmy EasyStep", "Dane faktury:", invoice);
 
-            return ResponseEntity.ok().build();
         } else {
             User user = userService.findUserByUsername(authentication.getName());
             List<CartItem> cartItems = cartService.findCartItemsByUserCart(user);
@@ -160,8 +159,8 @@ public class OrderController {
 
             cartService.deleteCartItems(cartItems);
 
-            return ResponseEntity.ok().build();
         }
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/api/orders", method = RequestMethod.GET)

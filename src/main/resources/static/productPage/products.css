@@ -6,7 +6,8 @@
     width: 100%;
     margin-bottom: 20px;
     cursor: pointer;
-    height: 500px;
+    height: 600px;
+    padding: 0 !important;
 }
 
 .modal-background {
@@ -97,6 +98,7 @@
     right: 28px;
     position: fixed;
     float: right;
+    z-index: 9999;
 }
 
 .cart-icon:hover {
@@ -166,8 +168,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #000;
-    color: #fff;
+    background-color: #f8eab2;
+    color: #000000;
     font-size: 1.2rem;
     padding: 1rem;
 }
@@ -178,6 +180,7 @@
     color: #fff;
     font-size: 1.5rem;
     cursor: pointer;
+    padding: 0 5px;
 }
 
 #cart-content {
@@ -214,6 +217,7 @@
     color: #000;
     font-size: 1.5rem;
     cursor: pointer;
+    padding: 0 3px;
 }
 
 .product button:first-child {

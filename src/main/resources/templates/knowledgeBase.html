@@ -35,9 +35,9 @@
             <li><a class="nav-link" href="/">Strona główna</a></li>
             <li><a class="nav-link" href="/products">Produkty</a></li>
             <li><a class="nav-link" href="/knowledgeBase">Baza wiedzy<span class="sr-only">(current)</span></a></li>
-            <li><a class="nav-link" href="/services">Usługi</a></li>
             <li><a class="nav-link" href="/serviceOrder">Zamów usługę</a></li>
             <li><a class="nav-link" href="/personalizer">Konfigurator</a></li>
+            <li th:if="${isAdmin}"><a class="nav-link" href="/admin">Zarządzanie</a></li>
             <li th:unless="${isLoggedIn}">
                 <a class="nav-link" href="/login">Zaloguj</a>
             </li>
@@ -250,6 +250,36 @@
 
     </div>
 </div>
+
+<footer class="bg-dark py-4 mt-4 text-white text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h3>Skontaktuj się z nami</h3>
+                <p>
+                    Zawoja 2044<br>
+                    Malopolska, Polska 12345<br>
+                    (+48) 456-7890-12
+                </p>
+            </div>
+            <div class="col-12 col-md-4">
+                <h3>Obserwuj nas!</h3>
+                <ul class="list-unstyled d-flex justify-content-between">
+                    <li><a href="#"><i class="fab fa-facebook-square fa-2x"></i></a></li>
+                    <li><a href="#"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+                    <li><a href="#"><i class="fab fa-instagram-square fa-2x"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-4">
+                <h3>Dane</h3>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Polityka prywatnosci</a></li>
+                    <li><a href="#" class="text-white">Regulamin uslug</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script type="text/javascript" th:src="@{/knowledgeBase/knowledgeBaseScripts.js}"></script>
 </body>

@@ -17,7 +17,7 @@ window.onload = function () {
                                   <div class="main-image" onclick="displayProduct(${idProduct})">
                                     <img src="${imagesHTML[0]}" alt="" id='produkt_${idProduct}'>
                                   </div>
-                                  <div class="col-text" style="padding: 20px">
+                                  <div class="col-text" style="padding: 10px">
                                     <div onclick="displayProduct(${idProduct})">                             
                                       <h4>${item.name}</h4>
                                       <h6>${item.description}</h6>

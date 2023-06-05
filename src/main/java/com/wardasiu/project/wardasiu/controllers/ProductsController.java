@@ -64,7 +64,7 @@ public class ProductsController {
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "Id") long id, @PathVariable String filename) throws IOException {
         Optional<Product> product = productsRepository.findProductByIdProducts(id);
-        String productName = product.get().getName().replace(" ", "_");
+        String productName = product.get().getName();
         String path = "src/main/resources/img/" + productName + "/";
         String filePath = Paths.get(path, filename + ".png").toString();
 
