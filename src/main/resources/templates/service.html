@@ -60,7 +60,7 @@
     </div>
 </nav>
 
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 100px;" id="service-form-container">
     <form method="post" th:action="@{/serviceOrder}" th:unless="${isLoggedIn}" id="service-form">
         <div class="form-group">
             <label for="email">Adres e-mail:</label>
@@ -123,7 +123,7 @@
 
 </div>
 
-<footer class="bg-dark py-4 mt-4 text-white text-center" style="position: absolute;">
+<footer class="bg-dark py-4 mt-4 text-white text-center" style="position: fixed;">
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-4">

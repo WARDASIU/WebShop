@@ -59,13 +59,8 @@
     <div class="row">
         <div class="col-lg-3 sidepanel-container">
             <div class="sidepanel">
-                <nav class="nav nav-tabs">
-                    <a class="nav-link" href="#produkty" style="width: 100%">Zarządzanie produktami</a>
-                    <a class="nav-link" href="#orders" style="width: 100%">Zamówienia</a>
-                    <a class="nav-link" href="#newsletter" style="width: 100%">Newsletter</a>
-                </nav>
                 <div id="produkty">
-                    <p><a class="add-product">Dodaj produkt</a></p>
+                    <p><a th:href="@{/admin/adminAddProduct}">Dodaj produkt</a></p>
                     <p><a class="edit-product">Edytuj produkt</a></p>
                 </div>
                 <div id="newsletter">
@@ -84,38 +79,9 @@
     </div>
 </div>
 
-<footer class="bg-dark py-4 mt-4 text-white text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <h3>Skontaktuj się z nami</h3>
-                <p>
-                    Zawoja 2044<br>
-                    Malopolska, Polska 12345<br>
-                    (+48) 456-7890-12
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <h3>Obserwuj nas!</h3>
-                <ul class="list-unstyled d-flex justify-content-between">
-                    <li><a href="#"><i class="fab fa-facebook-square fa-2x"></i></a></li>
-                    <li><a href="#"><i class="fab fa-twitter-square fa-2x"></i></a></li>
-                    <li><a href="#"><i class="fab fa-instagram-square fa-2x"></i></a></li>
-                </ul>
-            </div>
-            <div class="col-12 col-md-4">
-                <h3>Dane</h3>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Polityka prywatnosci</a></li>
-                    <li><a href="#" class="text-white">Regulamin uslug</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script type="text/javascript" th:src="@{/admin/js/adminSidePanel.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/adminAddProduct.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/showSelectedOption.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/showNewsletter.js}"></script>
 <script type="text/javascript" th:src="@{/admin/js/showOrders.js}"></script>
 </body>
 </html>

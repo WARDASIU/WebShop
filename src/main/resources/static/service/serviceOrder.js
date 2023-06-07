@@ -147,6 +147,7 @@ function showAdditionalFields() {
                 stairsTypeDiv.appendChild(stepsCountInput);
                 stairsTypeDiv.appendChild(woodKindLabelConstruction);
                 stairsTypeDiv.appendChild(stairsWoodTypeSelect);
+                document.getElementById("service-form-container").style.height = '1000px';
 
                 additionalFieldsDiv.appendChild(stairsTypeDiv);
             } else if (constructionSelect.value === "metalowa") {

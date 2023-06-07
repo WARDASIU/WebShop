@@ -312,6 +312,10 @@ footer .fa-2x:hover {
     color: lightgray;
 }
 
+.navbar-toggler{
+    background-color: #8a5401 !important;
+}
+
 .message-box {
     margin-top: 50px;
     z-index: 10000;

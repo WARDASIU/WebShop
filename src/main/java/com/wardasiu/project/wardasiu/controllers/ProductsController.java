@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -78,13 +79,16 @@ public class ProductsController {
         return gson.toJson(productsRepository.findAll());
     }
 
-    @PostMapping("/admin")
+    @PostMapping("/admin/product/add")
     public ResponseEntity<?> addProduct(String name, String description,
                                   int price, int in_stock) {
         long nextId = productsRepository.findAll().stream().mapToLong(Product::getIdProducts).max().orElse(0) + 1;
         productsRepository.save(new Product(nextId, name, description, price, in_stock));
 
-        return ResponseEntity.ok().build();
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("success", true);
+
+        return ResponseEntity.ok(responseBody);
     }
 
     @PutMapping("/api/products/{id}")

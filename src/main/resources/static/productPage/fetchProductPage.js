@@ -19,9 +19,9 @@ window.onload = function () {
                                   </div>
                                   <div class="col-text" style="padding: 10px">
                                     <div onclick="displayProduct(${idProduct})">                             
-                                      <h4>${item.name}</h4>
+                                      <h5>${item.name}</h5>
                                       <h6>${item.description}</h6>
-                                      <h6>${item.price}</h6>                                 
+                                      <h6>${item.price} zł</h6>                                 
                                     </div>         
                                     <div><button onclick="addItemToCart(${item.idProducts})" class="add-to-cart" id="addToCart">Dodaj do koszyka</button></div>                          
                                   </div>                               

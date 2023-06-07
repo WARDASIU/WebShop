@@ -15,7 +15,7 @@ import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    private final static String PATH = "src\\main\\resources\\static\\invoices";
+    private final static String PATH = "D:\\PracaInz\\test\\project\\static\\invoices";
     @Autowired
     private OrderRepository orderRepository;
 

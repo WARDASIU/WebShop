@@ -2,6 +2,7 @@ package com.wardasiu.project.wardasiu.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -25,7 +27,6 @@ public class AdminPageController {
         ModelAndView modelAndView = new ModelAndView("admin");
         modelAndView.addObject("isLoggedIn", true);
         modelAndView.addObject("isAdmin", true);
-
 
         return modelAndView;
     }
@@ -49,16 +50,31 @@ public class AdminPageController {
         return modelAndView;
     }
 
+    @GetMapping("/adminAddProduct")
+    public ModelAndView returnAdminAddProduct() {
+        ModelAndView modelAndView = new ModelAndView("adminAddProduct");
+        modelAndView.addObject("isLoggedIn", true);
+        modelAndView.addObject("isAdmin", true);
+
+        return modelAndView;
+    }
+
     @GetMapping("/downloadInvoice/{orderId}")
     public ResponseEntity<Resource> downloadInvoice(@PathVariable Long orderId) throws IOException {
         String filename = "Faktura_nr" + orderId + ".pdf";
-        ClassPathResource resource = new ClassPathResource("\\static\\invoices\\" + filename);
+        String folderPath = "D:\\PracaInz\\test\\project\\static\\invoices\\"; // Replace with the actual folder path
+
+        File file = new File(folderPath + filename);
+        Resource resource = new FileSystemResource(file);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDisposition(ContentDisposition.attachment().filename(filename).build());
+
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(new InputStreamResource(resource.getInputStream()));
+                .body(resource);
     }
+
 
 }

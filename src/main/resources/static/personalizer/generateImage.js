@@ -1,4 +1,5 @@
-const API_KEY = "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";
+const API_KEY = "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"; //sal
+const API_KEY2 = "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"; //pas
 
 async function generateAIImage() {
     const form = document.querySelector('#personalizer-form');

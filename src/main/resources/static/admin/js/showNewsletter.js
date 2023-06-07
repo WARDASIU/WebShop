@@ -1,8 +1,7 @@
-const form = document.querySelector('.newsletter-form');
-const spinner = document.querySelector('.spinner-border');
-const alert = document.querySelector('.alert');
-
 window.onload = function () {
+    const form = document.querySelector('.newsletter-form');
+    const spinner = document.querySelector('.spinner-border');
+    const alert = document.querySelector('.alert');
     form.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -16,6 +15,7 @@ window.onload = function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // window.location.href = '/admin/adminNewsletter'; // Redirect to the adminNewsletter page
                     alert.classList.remove('d-none');
                     alert.querySelector('strong').textContent = data.message;
                     form.reset();
